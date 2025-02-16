@@ -92,7 +92,7 @@ def admin_create_teacher_view(request):
         if password != confirm_password:
             return JsonResponse({'status':'error', 'message':'Passwords does not match.Try again.'})
         
-        user = User.objects.create_user(profile_photo,profile_photo, first_name=first_name.title(), last_name=last_name.title(),
+        user = User.objects.create_user(profile_photo=profile_photo, first_name=first_name.title(), last_name=last_name.title(),
                                         email=email.lower(), password=password, role='Teacher')
         StaffProfile.objects.create(user=user, phone_number=phone_number, designation=designation, department=department)
         
@@ -137,12 +137,12 @@ def admin_list_user_view(request, role):
     users = User.objects.filter(role=role.title())
     return render(request, 'users/admin/list_user.html', context={'role':role.title(), 'users':users})
 
-def admin_delete_user_view(request, id):
+def delete_user_view(request, id):
     user = User.objects.get(id=id)
     user_fullname = f'{user.first_name} {user.last_name[0]}'
     user.delete()
     messages.success(request, f'{user_fullname} deleted successfully.')
-    return redirect(request.META.get('HTTP_REFERER', '/admin/'))
+    return redirect(request.META.get('HTTP_REFERER', f'/{request.user.role.lower()}/'))
 
 
 # TEACHER VIEWS
