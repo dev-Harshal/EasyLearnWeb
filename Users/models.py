@@ -10,8 +10,7 @@ class UserManager(BaseUserManager):
         user.save(using = self._db)
         if user.role == 'Admin':
             phone_number = input('Phone Number: ')
-            StaffProfile.objects.create(user=user, phone_number=phone_number, 
-                                        designation='Staff', department='Admin')
+            StaffProfile.objects.create(user=user, phone_number=phone_number)
         return user
     
     def create_superuser(self, email, password=None, **extra_fields):
@@ -43,10 +42,9 @@ class StaffProfile(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone_number = models.CharField(max_length=10, null=False, blank=False)
-    designation = models.CharField(max_length=100, null=False, blank=False)
-    department = models.CharField(max_length=100, null=False, blank=False)
+    designation = models.CharField(max_length=100, null=False, blank=False, default='Staff')
+    department = models.CharField(max_length=100, null=False, blank=False, default='Admin')
     
-
     def __str__(self):
         return self.id
     

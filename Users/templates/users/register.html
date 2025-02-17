@@ -1,44 +1,43 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} Register {% endblock title %}  
+{% block title %} Register {% endblock title %}
 
 {% block content %}
-
-    <main>
+    <main class="main">
         <section class="container lg-position-relative min-vh-100 lg-d-flex justify-content-center align-items-center">
 
-            <div class="lg-position-absolute px-1 py-2 top-0 start-0 text-center text-md-start">
+            <div class="lg-position-absolute px-1 py-2 top-0 start-0">
                 <a href="{% url "index-view" %}" class="logo">
-                  <span>
-                    <i class="bi bi-mortarboard-fill"></i>
-                    <span class="text-primary">EASY</span> LEARN
-                  </span>
+                    <span>
+                        <i class="bi bi-mortarboard-fill"></i>
+                        <span class="text-primary">EASY</span> LEARN
+                    </span>
                 </a>
             </div>
 
-            <div class="row">
+            <div class="row mt-3 mt-lg-0">
 
                 <div class="col-6 d-none d-lg-block">
                     <img src="{% static "users/img/register.png" %}" class="d-block w-100" alt="...">
                 </div>
-
+                
                 <div class="col col-lg-6 d-flex justify-content-center align-items-center">
                     <div class="row justify-content-center">
-                        <div class="col col-lg-9 ">
-                        
-                            <div class="mb-3 text-center text-xl-start">
-                                <h3 class="fw-bold pt-2 pb-0 mb-0">
+                        <div class="col col-lg-9">
+
+                            <div class="mb-3 text-center text-lg-start">
+                                <h3 class="fw-bold">
                                     <i class="bi bi-person-bounding-box"></i>
                                     CREATE ACCOUNT.
                                 </h3>
-                                <p class="card-text">Skills for your present (and your future).<br>
+                                <p class="card-text d-none d-md-block">Skills for your present (and your future).<br>
                                     <span class="text-primary">Get started with us.</span>
                                 </p>
                             </div>
 
-                            {% include "users/components/alert.html" %}
-    
+                            {% include "components/alert.html" %}
+
                             <form id="registerForm" class="row g-2 mb-3" method="post">
                                 {% csrf_token %}
                                 <div class="col-6">
@@ -69,7 +68,7 @@
                                     <button type="submit" class="btn btn-primary w-50">Register</button>
                                 </div>
                             </form>
-                            
+
                             <div class="text-center">
                                 <p class="card-text">Already have account ? <a href="{% url "login-view" %}">Login</a></p>
                             </div>
@@ -81,5 +80,4 @@
 
         </section>
     </main>
-
 {% endblock content %}

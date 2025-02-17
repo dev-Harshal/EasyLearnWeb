@@ -1,44 +1,43 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} Login {% endblock title %} 
+{% block title %} Login {% endblock title %}
 
 {% block content %}
-
-    <main>
+    <main class="main">
         <section class="container lg-position-relative min-vh-100 lg-d-flex justify-content-center align-items-center">
 
-            <div class="lg-position-absolute px-1 py-2 top-0 start-0 text-center text-md-start">
+            <div class="lg-position-absolute px-1 py-2 top-0 start-0">
                 <a href="{% url "index-view" %}" class="logo">
-                  <span>
-                    <i class="bi bi-mortarboard-fill"></i>
-                    <span class="text-primary">EASY</span> LEARN
-                  </span>
+                    <span>
+                        <i class="bi bi-mortarboard-fill"></i>
+                        <span class="text-primary">EASY</span> LEARN
+                    </span>
                 </a>
             </div>
 
-            <div class="row">
+            <div class="row mt-3 mt-lg-0">
 
                 <div class="col-6 d-none d-lg-block">
-                    <img src="{% static "users/img/register.png" %}" class="d-block w-100" alt="...">
+                    <img src="{% static "users/img/login.png" %}" class="d-block w-100" alt="...">
                 </div>
-
+                
                 <div class="col col-lg-6 d-flex justify-content-center align-items-center">
                     <div class="row justify-content-center">
-                        <div class="col col-lg-9 ">
-                        
-                            <div class="mb-3 text-center text-xl-start">
-                                <h3 class="fw-bold pt-2 pb-0 mb-0">
+                        <div class="col col-lg-9">
+
+                            <div class="mb-3 text-center text-lg-start">
+                                <h3 class="fw-bold">
                                     <i class="bi bi-person-bounding-box"></i>
                                     LOG IN.
                                 </h3>
-                                <p class="card-text">Courses designed for real-world success.<br>
+                                <p class="card-text d-none d-md-block">Courses designed for real-world success.<br>
                                     Boost your career. <span class="text-primary">Start today!</span>
                                 </p>
                             </div>
 
-                            {% include "users/components/alert.html" %}
-    
+                            {% include "components/alert.html" %}
+
                             <form id="loginForm" class="row g-2 mb-3" method="post">
                                 {% csrf_token %}
                                 <div class="col-12">
@@ -61,7 +60,7 @@
                                     <button id="verifyBtn" type="submit" class="btn btn-primary w-50 d-none" disabled>Verify</button>
                                 </div>
                             </form>
-                            
+
                             <div class="text-center">
                                 <p class="card-text">Create new account ? <a href="{% url "register-view" %}">Register</a></p>
                             </div>
@@ -73,5 +72,4 @@
 
         </section>
     </main>
-
 {% endblock content %}

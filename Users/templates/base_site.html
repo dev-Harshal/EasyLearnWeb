@@ -1,14 +1,16 @@
+{% extends "base.html" %}
 {% load static %}
 
+{% block content %}
     <nav class="navbar navbar-expand-lg sticky-top bg-body-tertiary shadow bg-body-tertiary">
         <div class="container-fluid">
 
             <div class="d-flex align-items-center justify-content-between">
                 <a href="" class="logo d-flex align-items-center">
-                  <span >
-                    <i class="bi bi-mortarboard-fill"></i>
-                    <span class="text-primary">EASY</span> LEARN
-                  </span>
+                    <span >
+                        <i class="bi bi-mortarboard-fill"></i>
+                        <span class="text-primary">EASY</span> LEARN
+                    </span>
                 </a>
             </div>
 
@@ -18,71 +20,79 @@
 
             <div class="collapse navbar-collapse lg-d-flex justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
+
                     {% if request.user.is_authenticated %}
-                    <li class="nav-item dropdown pe-3">
+                        <li class="nav-item dropdown pe-3">
+                            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                                <img src="{% static "users/img/profile.png" %}" alt="Profile" class="rounded-circle border border-dark-subtle" style="width:25px">
+                                <span class="dropdown-toggle ps-2 fs-5">{{request.user.first_name}} {{request.user.last_name.0}}</span>
+                            </a>
 
-                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                            <img src="{% static "users/img/profile.png" %}" alt="Profile" class="rounded-circle border border-dark-subtle" style="width:25px">
-                            <span class="dropdown-toggle ps-2 fs-5">{{request.user.first_name}} {{request.user.last_name.0}}</span>
-                        </a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                                <li class="d-none lg-d-block dropdown-header">
+                                    <h6>{{request.user.first_name}} {{request.user.last_name.0}}</h6>
+                                    <span>{{request.user.role}}</span>
+                                </li>
 
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                            <li class="d-none lg-d-block dropdown-header">
-                                <h6>{{request.user.first_name}} {{request.user.last_name.0}}</h6>
-                                <span>{{request.user.role}}</span>
-                            </li>
+                                <li class="d-none lg-d-block">
+                                    <hr class="dropdown-divider">
+                                </li>
 
-                            <li class="d-none lg-d-block">
-                                <hr class="dropdown-divider">
-                            </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="">
+                                        <i class="bi bi-person"></i>
+                                        <span>My Profile</span>
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="">
-                                    <i class="bi bi-person"></i>
-                                    <span>My Profile</span>
-                                </a>
-                            </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li> 
 
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="{% url "logout-view" %}">
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    <span>Sign Out</span>
-                                </a>
-                            </li>
-                        </ul>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="{% url "logout-view" %}">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        <span>Sign Out</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item nav-item dropdown pe-3">
+                            <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                                <span>LOGIN</span>
+                            </a>
 
-                    </li>
-                {% else %}
-                    <li class="nav-item nav-item dropdown pe-3">
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url "login-view" %}">Student</a></li>
+                                <li><a class="dropdown-item" href="{% url "staff-login-view" 'teacher' %}">Teacher</a></li>
+                                <li><a class="dropdown-item" href="{% url "staff-login-view" 'admin' %}">Admin</a></li>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item pe-3">
+                            <a class="nav-link" href="{% url "register-view" %}">
+                                <i class="bi bi-person-bounding-box"></i>
+                                <span>REGISTER</span>
+                            </a>
+                        </li>
+                    {% endif %}
 
-                        <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                            <span>LOGIN</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url "login-view" %}">Student</a></li>
-                            <li><a class="dropdown-item" href="{% url "staff-login-view" 'teacher' %}">Teacher</a></li>
-                            <li><a class="dropdown-item" href="{% url "staff-login-view" 'admin' %}">Admin</a></li>
-                        </ul>
-
-
-                    </li>
-
-                    <li class="nav-item pe-3">
-                        <a class="nav-link" href="{% url "register-view" %}">
-                            <i class="bi bi-person-bounding-box"></i>
-                            <span>REGISTER</span>
-                        </a>
-                    </li>
-                {% endif %}
                 </ul>
             </div>
+
         </div>
     </nav>
+
+    <main class="main container mt-3">
+
+        {% include "components/alert.html" %}
+        
+    </main>
+{% endblock content %}
+
+
 
 
 

@@ -1,10 +1,11 @@
-from django.utils import timezone
 import random
+from django.utils import timezone
 from django.contrib.auth import authenticate
 
-def login_user(request,role='Student'):
+def login_user(request, role='Student'):
     email = request.POST.get('email')
     password = request.POST.get('password')
+    
     user = authenticate(email=email, password=password)
     if user is not None and user.role == role:
         otp_code = str(random.randint(1000,9999))

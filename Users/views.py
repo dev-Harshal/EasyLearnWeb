@@ -1,15 +1,14 @@
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
-from Users.models import User, StaffProfile
 from django.contrib import messages
 from django.contrib.auth import login, logout
-
+from Users.models import User, StaffProfile
 from Users.services import *
-
-# AUTHENTICATION VIEWS
 
 def index_view(request):
     return render(request, 'users/index.html')
+
+# --- AUTHENTICATION VIEWS ---
 
 def register_view(request):
     if request.method == 'POST':
@@ -25,9 +24,14 @@ def register_view(request):
         if password != confirm_password:
             return JsonResponse({'status':'error', 'message':'Passwords does not match.'})
 
-        user = User.objects.create_user(first_name=first_name.title(), last_name=last_name.title(), institute=institute,
-                                        email=email.lower(), password=password, role='Student')
-
+        user = User.objects.create_user(
+            first_name = first_name.title(),
+            last_name = last_name.title(),
+            institute = institute,
+            email = email.lower(),
+            password = password, 
+            role='Student'
+        )
         messages.success(request, f'{user.first_name} {user.last_name} registered successfully.')
         return JsonResponse({'status':'success', 'success_url':'/login/'})
     return render(request, 'users/register.html')
@@ -137,6 +141,17 @@ def admin_list_user_view(request, role):
     users = User.objects.filter(role=role.title())
     return render(request, 'users/admin/list_user.html', context={'role':role.title(), 'users':users})
 
+# TEACHER VIEWS
+
+def teacher_index_view(request):
+    return render(request, 'users/teacher/teacher_index.html')
+
+def teacher_list_student_view(request):
+    users = User.objects.filter(role='Student')
+    return render(request, 'users/teacher/list_student.html', context={'users':users})
+
+# ADMIN AND TEACHER COMMON
+
 def delete_user_view(request, id):
     user = User.objects.get(id=id)
     user_fullname = f'{user.first_name} {user.last_name[0]}'
@@ -144,18 +159,10 @@ def delete_user_view(request, id):
     messages.success(request, f'{user_fullname} deleted successfully.')
     return redirect(request.META.get('HTTP_REFERER', f'/{request.user.role.lower()}/'))
 
-
-# TEACHER VIEWS
-def teacher_index_view(request):
-    return render(request, 'users/teacher/teacher_index.html')
-
-def teacher_list_user_view(request, role):
-    users = User.objects.filter(role=role.title())
-    return render(request, 'users/teacher/list_user.html', context={'role':role.title(), 'users':users})
-
-def profile_view(request, role):
+def staff_profile_view(request, role):
     if request.method == 'POST':
         id = request.POST.get('id')
+        profile_photo = request.FILES.get('profile_photo', '')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
@@ -173,11 +180,12 @@ def profile_view(request, role):
         user.first_name = first_name.title()
         user.last_name = last_name.title()
         user.email = email.lower()
+        user.profile_photo = profile_photo if profile_photo != '' else user.profile_photo
         profile.phone_number = phone_number
         user.save()
         profile.save()
         return JsonResponse({'status':'success', 'message':f'{user.first_name} {user.last_name[0]} profile saved successfully.'})
-    return render(request, 'users/profile.html',context={'role':role})
+    return render(request, 'users/staff_profile.html',context={'role':role})
 
 def change_password_view(request):
     if request.method == 'POST':

@@ -1,36 +1,11 @@
+{% extends "./admin_site.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+{% block title %} Update Teacher {% endblock title %}
 
-    <title>Easy Learn | Update Teacher</title>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-    <!-- Vendor CSS Files -->
-    <link href="{% static "assets/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "assets/vendor/bootstrap-icons/bootstrap-icons.css" %}" rel="stylesheet">
-    <link href="{% static "assets/vendor/boxicons/css/boxicons.min.css" %}" rel="stylesheet">
-    <link href="{% static "assets/vendor/boxicons/css/boxicons.min.css" %}" rel="stylesheet">
-    <link href="{% static "assets/vendor/boxicons/css/boxicons.min.css" %}" rel="stylesheet">
-    <link href="{% static "assets/vendor/remixicon/remixicon.css" %}" rel="stylesheet">
-    <link href="{% static "assets/vendor/simple-datatables/style.css" %}" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link href="{% static "assets/css/style.css" %}" rel="stylesheet">
-</head>
-
-<body>
-
-    {% include "users/admin/admin_site.html" %}
-    
+{% block main %}
     <main id="main" class="main">
-    
+        
         <section class="section">
             <div class="row justify-content-center">
                 <div class="col col-lg-9">
@@ -39,9 +14,9 @@
 
                             <h5 class="card-title text-center">UPDATE TEACHER PROFILE</h5>
 
-                            <div class="card col-9 p-2 mx-auto">
+                            <div class="card col-12 col-lg-9 p-2 mx-auto">
 
-                                {% include "users/components/alert.html" %}
+                                {% include "components/alert.html" %}
 
                                 <form id="updateTeacherForm" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
@@ -70,11 +45,11 @@
                                                 <input class="form-control" type="file" id="profilePhoto" name="profile_photo">
                                             </div>
 
-                                            <div class="col-6">
+                                            <div class="col-12 col-lg-6">
                                                 <label for="firstName" class="form-label">First Name</label>
                                                 <input type="text" class="form-control" id="firstName" name="first_name" value="{{user.first_name}}" required>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-12 col-lg-6">
                                                 <label for="lastName" class="form-label">Last Name</label>
                                                 <input type="text" class="form-control" id="lastName" name="last_name" value="{{user.last_name}}" required>
                                             </div>
@@ -82,7 +57,7 @@
                                                 <label for="phoneNumber" class="form-label">Phone Number</label>
                                                 <input type="text" class="form-control" id="phoneNumber" name="phone_number" value="{{user.profile.phone_number}}" required>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-12 col-lg-6">
                                                 <label for="designation" class="form-label">designation</label>
                                                 <select id="designation" class="form-select" name="designation">
                                                     <option {% if user.profile.designation == 'Professor' %}selected{% endif %} value="Professor">Professor</option>
@@ -91,7 +66,7 @@
                                                 </select>
                                             </div>
             
-                                            <div class="col-6">
+                                            <div class="col-12 col-lg-6">
                                                 <label for="department" class="form-label">Department</label>
                                                 <select id="department" class="form-select" name="department">
                                                     <option {% if user.profile.department == 'Information Technology' %}selected{% endif %} value="Information Technology">Information Technology</option>
@@ -112,9 +87,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="card-footer text-end">
+                                        <div class="d-flex justify-content-end card-footer">
                                             <a href="{% url "admin-index-view" %}" class="btn btn-secondary">Close</a>
-                                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                                            <button type="submit" class="btn btn-primary ms-3">Update</button>
                                         </div>
 
                                     </div>
@@ -126,25 +101,8 @@
                 </div>
             </div>
         </section>
-    
+
     </main>
+{% endblock main %}
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-    <!-- Vendor JS Files -->
-    <script src="{% static "assets/vendor/apexcharts/apexcharts.min.js" %}"></script>
-    <script src="{% static "assets/vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
-    <script src="{% static "assets/vendor/chart.js/chart.umd.js" %}"></script>
-    <script src="{% static "assets/vendor/echarts/echarts.min.js" %}"></script>
-    <script src="{% static "assets/vendor/quill/quill.js" %}"></script>
-    <script src="{% static "assets/vendor/simple-datatables/simple-datatables.js" %}"></script>
-    <script src="{% static "assets/vendor/tinymce/tinymce.min.js" %}"></script>
-    <script src="{% static "assets/vendor/php-email-form/validate.js" %}"></script>
-
-    <!-- Template Main JS File -->
-    <script src="{% static "assets/js/main.js" %}"></script>
-    <script src="{% static "users/js/script.js" %}"></script>
-
-</body>
-
-</html>
+    
