@@ -19,6 +19,6 @@ urlpatterns = [
     path('teacher/list/student/', teacher_list_student_view, name='teacher-list-student-view'),
 
     path('delete/<int:id>/', delete_user_view, name='delete-user-view'),
-    path('<str:role>/profile/', staff_profile_view, name='staff_profile-view'),
+    path('<str:role>/profile/', staff_profile_view, name='staff-profile-view'),
     path('change-password/', change_password_view, name='changepassword-view'),
 ]
