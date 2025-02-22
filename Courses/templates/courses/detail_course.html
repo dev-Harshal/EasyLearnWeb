@@ -1,0 +1,40 @@
+{% extends "users/teacher/teacher_site.html" %}
+
+{% block title %} Course Details {% endblock title %}
+
+{% block main %}
+
+    <main id="main" class="main">
+        <section class="section">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="row d-flex align-items-center mt-3">
+                                <div class="col-12 col-md-6">
+                                    <img src="{{course.course_thumbnail.url}}" class="img-fluid" alt="Course Thumbnail">
+                                </div>
+    
+                                <div class="col-12 col-md-6">
+                                    <h3 class="card-title fs-3 mb-0">{{course.course_title}}<br><span>@{{course.created_by.first_name}} {{course.created_by.last_name}}</h3>
+                                    <p class="card-text fs-5 fw-medium">{{course.course_description}}</p>
+                                    <p class="card-text"><span class="fw-semibold">Category</span> : {{course.course_category}}</p>
+                                    <p class="card-text"><span>Created On</span> : {{course.created_date}}</p>
+                                    <div class="text-end">
+                                        <a href="{% url "delete-course-view" course.id %}" class="btn btn-danger w-25">
+                                            Delete
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock main %}

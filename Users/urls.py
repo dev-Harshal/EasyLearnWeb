@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from Users.views import *
 
 urlpatterns = [
@@ -15,6 +15,7 @@ urlpatterns = [
     path('admin/update/teacher/<int:id>/', admin_update_teacher_view, name='admin-update-teacher-view'),
     path('admin/list/<str:role>/', admin_list_user_view, name='admin-list-user-view'),
     
+    path('teacher/', include('Courses.urls')),
     path('teacher/', teacher_index_view, name='teacher-index-view'),
     path('teacher/list/student/', teacher_list_student_view, name='teacher-list-student-view'),
 

@@ -1,0 +1,75 @@
+{% extends "users/teacher/teacher_site.html" %}
+
+{% block title %} Update Course {% endblock title %}
+
+{% block main %}
+    <main id="main" class="main">
+
+        <section class="section">
+            <div class="row justify-content-center">
+                <div class="col col-lg-9">
+                    <div class="card">
+                        <div class="card-body row">
+
+                            <h5 class="card-title text-center">UPDATE COURSE</h5>
+
+                            <div class="card col col-md-9 mx-auto">
+
+                                {% include "components/alert.html" %}
+
+                                <h3 class="card-title fs-3 mb-0">{{course.course_title}}<br><span>@{{course.created_by.first_name}} {{course.created_by.last_name}}</h3>
+
+                                <img src="{{course.course_thumbnail.url}}" class="card-img-top" alt="Course Thumbnail">
+
+                                <div class="card-body p-2">
+                                    <form id="updateCourseForm" class="row g-3" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+
+                                        <input type="hidden" name="id" id="id" value="{{course.id}}">
+
+                                        <div class="col col-md-6">
+                                            <label for="courseThumbnail" class="form-label">Thumbnail Image</label>
+                                            <input class="form-control" type="file" id="courseThumbnail" name="course_thumbnail" >
+                                        </div>
+
+                                        <div class="col col-md-6">
+                                            <label for="category" class="form-label">Course Category</label>
+                                            <select id="category" class="form-select" name="course_category" required>
+                                                <option {% if course.course_category == '' %}selected{% endif %} value="">choose category</option>
+                                                <option {% if course.course_category == 'Frontend Web Development' %}selected{% endif %} value="Frontend Web Development">Frontend Web Development</option>
+                                                <option {% if course.course_category == 'Backend Web Development' %}selected{% endif %} value="Backend Web Development">Backend Web Development</option>
+                                                <option {% if course.course_category == 'Data Science' %}selected{% endif %} value="Data Science">Data Science</option>
+                                                <option {% if course.course_category == 'Mobile App Development' %}selected{% endif %} value="Mobile App Development">Mobile App Development</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="courseTitle" class="form-label">Couse Title</label>
+                                            <input type="text" class="form-control" id="courseTitle" name="course_title" value="{{course.course_title}}" required>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" placeholder="Course Description"  name="course_description" id="courseDescription" style="height: 100px">{{ course.course_description }}</textarea>
+                                                <label for="courseDescription">Course Description</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 text-center">
+                                            <button type="submit" class="btn btn-primary">UPDATE COURSE</button>
+                                            <a href="{% url "list-courses-view" %}" class="btn btn-secondary">Close</a>
+                                        </div>
+                                    </form>    
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+{% endblock main %}
+
+    

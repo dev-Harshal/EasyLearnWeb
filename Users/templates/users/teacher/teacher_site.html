@@ -16,14 +16,14 @@
             <li class="nav-heading">TEACHER PAGES</li>
 
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == '' %}active bg-dark text-primary{% endif %} collapsed" href="">
+                <a class="nav-link {% if request.resolver_match.url_name == 'create-course-view' %}active bg-dark text-primary{% endif %} collapsed" href="{% url "create-course-view" %}">
                     <i class="bi bi-person-video3"></i>
                     <span>CREATE COURSE</span>
                 </a>
             </li>
 
             <li class="nav-item mt-4">
-                <a class="nav-link {% if request.resolver_match.url_name == '' and request.resolver_match.kwargs.role == 'teacher' %}active bg-dark text-primary{% endif %} collapsed" href="">
+                <a class="nav-link {% if request.resolver_match.url_name == 'list-courses-view' %}active bg-dark text-primary{% endif %} collapsed" href="{% url "list-courses-view" %}">
                     <i class="bi bi-person-lines-fill"></i>
                     <span>LIST COURSE'S</span>
                 </a>
