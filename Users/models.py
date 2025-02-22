@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from Users.services import create_admin_profile
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -8,9 +9,7 @@ class UserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using = self._db)
-        if user.role == 'Admin':
-            phone_number = input('Phone Number: ')
-            StaffProfile.objects.create(user=user, phone_number=phone_number)
+        create_admin_profile(user,StaffProfile)
         return user
     
     def create_superuser(self, email, password=None, **extra_fields):

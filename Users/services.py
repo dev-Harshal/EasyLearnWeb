@@ -2,6 +2,16 @@ import random
 from django.utils import timezone
 from django.contrib.auth import authenticate
 
+def create_admin_profile(user,model):
+    if user.role == 'Admin':
+        while True:
+            phone_number = input('Phone Number: ')
+            if phone_number.isdigit() and len(phone_number) == 10:
+                break
+            else:
+                print("Invalid phone number. Please enter a 10-digit number.")
+        model.objects.create(user=user, phone_number=phone_number)
+
 def login_user(request, role='Student'):
     email = request.POST.get('email')
     password = request.POST.get('password')

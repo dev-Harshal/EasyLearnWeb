@@ -134,7 +134,7 @@ function staffLogin() {
     formData.append('email', email)
     formData.append('password', password)
 
-    url = `/${role}/login/`
+    url = `/${role}/login`
     fetch(url, {
         method : 'POST',
         headers : {
