@@ -13,10 +13,10 @@ def create_course_view(request):
         course_description = request.POST.get('course_description')
 
         if Course.objects.filter(course_title=course_title).exists():
-            return JsonResponse({'status':'error', 'message':'Exact same Course Title already exists.'})
+            return JsonResponse({'status':'error', 'message':'Same Title already exists.'})
         course = Course.objects.create(created_by=request.user, course_thumbnail=course_thumbnail, course_category=course_category, course_title=course_title, course_description=course_description)
-        messages.success(request, f'{course.course_title} Course created successfully.')
-        return JsonResponse({'status':'success', 'success_url':f'/teacher/update/course/{course.id}/'})
+        messages.success(request, f'Course of {course_category} created successfully.')
+        return JsonResponse({'status':'success', 'success_url':f'/teacher/detail/course/{course.id}/'})
 
     return render(request, 'courses/create_course.html')
 
@@ -32,7 +32,7 @@ def update_course_view(request, course_id):
         courses_objs = Course.objects.filter(course_title=course_title)
         if courses_objs.exists():
             if course != courses_objs[0]:
-                return JsonResponse({'status':'error', 'message':'Exact same Course Title already exists.'})
+                return JsonResponse({'status':'error', 'message':'Same Title already exists.'})
 
         course.course_thumbnail = course_thumbnail if course_thumbnail != '' else course.course_thumbnail
         course.course_category = course_category
@@ -55,5 +55,5 @@ def delete_course_view(request, course_id):
     return redirect('list-courses-view')
 
 def list_courses_view(request):
-    courses = Course.objects.all()
+    courses = request.user.created_course.all()
     return render(request, 'courses/list_courses.html', context={'courses':courses})

@@ -7,88 +7,96 @@
         
         <section class="section">
             <div class="row justify-content-center">
-                <div class="col col-lg-9">
+                <div class="col-12">
                     <div class="card">
+
                         <div class="card-body row">
 
                             <h5 class="card-title text-center">CREATE TEACHER PROFILE</h5>
 
-                            <div class="card col col-lg-9 p-2 mx-auto">
+                            <div class="card col col-md-9 p-2 mx-auto">
 
                                 {% include "components/alert.html" %}
 
                                 <form id="createTeacherForm" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
+
                                     <div class="card-header">
                                         Personal Information
                                     </div>
 
-                                    <div class="card-body">
-                                        <div class="row g-3 p-2">
-                                            <div class="col-12">
-                                                <label for="profilePhoto" class="form-label">Profile Photo</label>
-                                                <input class="form-control" type="file" id="profilePhoto" name="profile_photo" required>
-                                            </div>
-                                            <div class="col-12 col-lg-6">
-                                                <label for="firstName" class="form-label">First Name</label>
-                                                <input type="text" class="form-control" id="firstName" name="first_name" required>
-                                            </div>
-                                            <div class="col-12 col-lg-6">
-                                                <label for="lastName" class="form-label">Last Name</label>
-                                                <input type="text" class="form-control" id="lastName" name="last_name" required>
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="phoneNumber" class="form-label">Phone Number</label>
-                                                <input type="text" class="form-control" id="phoneNumber" name="phone_number" required>
-                                            </div>
-                                            <div class="col-12 col-lg-6">
-                                                <label for="designation" class="form-label">Designation</label>
-                                                <select id="designation" class="form-select" name="designation" required>
-                                                    <option value="Professor">Professor</option>
-                                                    <option value="Ast.Professor">Ast.Professor</option>
-                                                    <option value="Staff">Staff</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-12 col-lg-6">
-                                                <label for="department" class="form-label">Department</label>
-                                                <select id="department" class="form-select" name="department" required>
-                                                    <option value="Information Technology">Information Technology</option>
-                                                    <option value="Computer Science">Computer Science</option>
-                                                    <option value="Enginnering">Enginnering</option>
-                                                </select>
-                                            </div>
+                                    <div class="card-body row g-3 p-2">
+                                        
+                                        <div class="col-12">
+                                            <label for="profilePhoto" class="form-label">Profile Photo</label>
+                                            <input class="form-control" type="file" id="profilePhoto" name="profile_photo" required>
                                         </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="firstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" name="first_name" required>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="lastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" name="last_name" required>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                                            <input type="text" class="form-control" id="phoneNumber" name="phone_number" required>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="designation" class="form-label">Designation</label>
+                                            <select id="designation" class="form-select" name="designation" required>
+                                                <option value="Professor">Professor</option>
+                                                <option value="Ast.Professor">Ast.Professor</option>
+                                                <option value="Staff">Staff</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <label for="department" class="form-label">Department</label>
+                                            <select id="department" class="form-select" name="department" required>
+                                                <option value="Information Technology">Information Technology</option>
+                                                <option value="Computer Science">Computer Science</option>
+                                                <option value="Enginnering">Enginnering</option>
+                                            </select>
+                                        </div>
+                                        
                                     </div>
 
                                     <div class="card-header">
                                         Authentication Information
                                     </div>
 
-                                    <div class="card-body">
-                                        <div class="row g-3 p-2">
-                                            <div class="col-12">
-                                                <label for="email" class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="email" name="email" required>
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="password" class="form-label">Password</label>
-                                                <input type="password" class="form-control" id="password" name="password" required>
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                                <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
-                                            </div>
+                                    <div class="card-body row g-3 p-2">
+                                        
+                                        <div class="col-12">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" required>
                                         </div>
-
-                                        <div class="card-footer text-end">
-                                            <button class="btn btn-primary">Create Profile</button>
+                                        <div class="col-12">
+                                            <label for="password" class="form-label">Password</label>
+                                            <input type="password" class="form-control" id="password" name="password" required>
                                         </div>
-
+                                        <div class="col-12">
+                                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                            <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+                                        </div>
+                                        
                                     </div>
+
+                                    <div class="card-footer text-end">
+                                        <button class="btn btn-primary">Create Profile</button>
+                                    </div>
+                                    
                                 </form>
                                 
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

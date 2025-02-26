@@ -6,66 +6,68 @@
     <main id="main" class="main">
 
         <section class="section">
-            <div class="row justify-content-center">
-                <div class="col col-lg-9">
+            <div class="row justify-content-lg-center">
+                <div class="col-12">
                     <div class="card">
-                        <div class="card-body row">
 
-                            <h5 class="card-title text-center">CREATE COURSE</h5>
+                        <div class="card-body">
 
-                            <div class="card col col-lg-9 p-2 mx-auto">
+                            <h5 class="card-title text-center">
+                                <i class="bi bi-bookmark-plus-fill"></i>
+                                CREATE COURSE PAGE
+                            </h5>
 
-                                {% include "components/alert.html" %}
+                            <div class="card col-12 col-md-9 mx-auto">
 
-                                <form id="createCourseForm" method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <div class="card-header">
-                                        First, let's find out what type of course you're making.
-                                    </div>
+                                <div class="card-header">
+                                    First, let's find out what type of course you're making.
+                                </div>
 
-                                    <div class="card-body">
-                                        <div class="row g-3 p-2">
-                                            <div class="col col-md-6">
-                                                <label for="courseThumbnail" class="form-label">Thumbnail Image</label>
-                                                <input class="form-control" type="file" id="courseThumbnail" name="course_thumbnail" required>
-                                            </div>
+                                <div class="card-body p-4">
 
-                                            
-                                            <div class="col col-md-6">
-                                                <label for="category" class="form-label">Course Category</label>
-                                                <select id="category" class="form-select" name="course_category" required>
-                                                    <option value="">choose category</option>
-                                                    <option value="Frontend Web Development">Frontend Web Development</option>
-                                                    <option value="Backend Web Development">Backend Web Development</option>
-                                                    <option value="Data Science">Data Science</option>
-                                                    <option value="Mobile App Development">Mobile App Development</option>
-                                                </select>
-                                            </div>
+                                    {% include "components/alert.html" %}
 
-                                            <div class="col-12">
-                                                <label for="courseTitle" class="form-label">Couse Title</label>
-                                                <input type="text" class="form-control" id="courseTitle" name="course_title" required>
-                                            </div>
+                                    <form id="createCourseForm" method="post" class="row g-3 ">
+                                        {% csrf_token %}
 
-                                            <div class="col-12">
-                                                <div class="form-floating">
-                                                    <textarea class="form-control" placeholder="Course Description" name="course_description" id="courseDescription" style="height: 100px"></textarea>
-                                                    <label for="courseDescription">Course Description</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 text-center">
-                                                <button type="submit" class="btn btn-primary w-50">CREATE COURSE</button>
-                                                <a href="{% url "list-courses-view" %}" class="btn btn-secondary">Close</a>
-                                            </div>
-                                            
+                                        <div class="col col-md-6">
+                                            <label for="courseThumbnail" class="form-label">Thumbnail Image</label>
+                                            <input class="form-control" type="file" id="courseThumbnail" name="course_thumbnail" required>
                                         </div>
-                                    </div>
 
-                                </form>
+                                        <div class="col col-md-6">
+                                            <label for="category" class="form-label">Course Category</label>
+                                            <select id="category" class="form-select" name="course_category" required>
+                                                <option value="">choose category</option>
+                                                <option value="Frontend Web Development">Frontend Web Development</option>
+                                                <option value="Backend Web Development">Backend Web Development</option>
+                                                <option value="Data Science">Data Science</option>
+                                                <option value="Mobile App Development">Mobile App Development</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="courseTitle" class="form-label">Couse Title</label>
+                                            <input type="text" class="form-control" id="courseTitle" name="course_title" required>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" placeholder="Course Description" name="course_description" id="courseDescription" style="height: 100px"></textarea>
+                                                <label for="courseDescription">Course Description</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 text-center">
+                                            <button type="submit" class="btn btn-primary w-50">Create Course</button>
+                                        </div>
+                                        
+                                    </form>
+                                </div>
                                 
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

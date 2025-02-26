@@ -6,7 +6,7 @@ urlpatterns = [
 
     path('register/', register_view, name='register-view'),
     path('login/', login_view, name='login-view'),
-    path('<str:role>/login', staff_login_view, name='staff-login-view'),    
+    path('<str:role>/login/', staff_login_view, name='staff-login-view'),    
     path('verify-otp/', verify_otp, name='verify-otp'),
     path('logout/', logout_view, name='logout-view'),
 

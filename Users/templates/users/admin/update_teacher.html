@@ -20,79 +20,79 @@
 
                                 <form id="updateTeacherForm" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
+
                                     <div class="card-header">
                                         Personal Information
                                     </div>
-                                    <div class="card-body">
 
-                                        <div class="row g-3 p-2">
+                                    <div class="card-body row g-3 p-2">
 
-                                            <div class="col text-end">
-                                                {% if user.profile_photo.url != "" %}
-                                                    <img src="{{user.profile_photo.url}}" alt="Profile" class="" style="width:120px;">
-                                                {% else %}
-                                                    <img src="{% static "users/img/profile.png" %}" alt="Profile" class="border border-dark-subtle" style="width:120px">
-                                                {% endif %}
-                                            </div>
+                                        <div class="col-8 text-end">
+                                            {% if user.profile_photo.url != "" %}
+                                                <img src="{{user.profile_photo.url}}" alt="Profile" class="w-50">
+                                            {% else %}
+                                                <img src="{% static "users/img/profile.png" %}" alt="Profile" class="border border-dark-subtle w-50">
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div class="col-12">
+                                            <label for="id" class="form-label">ID</label>
+                                            <input type="text" class="form-control" id="id" name="id" value="{{user.id}}" disabled>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="profilePhoto" class="form-label">Profile Photo</label>
+                                            <input class="form-control" type="file" id="profilePhoto" name="profile_photo">
+                                        </div>
+
+                                        <div class="col-12 col-lg-6">
+                                            <label for="firstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" name="first_name" value="{{user.first_name}}" required>
+                                        </div>
+                                        <div class="col-12 col-lg-6">
+                                            <label for="lastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" name="last_name" value="{{user.last_name}}" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                                            <input type="text" class="form-control" id="phoneNumber" name="phone_number" value="{{user.profile.phone_number}}" required>
+                                        </div>
+                                        <div class="col-12 col-lg-6">
+                                            <label for="designation" class="form-label">designation</label>
+                                            <select id="designation" class="form-select" name="designation">
+                                                <option {% if user.profile.designation == 'Professor' %}selected{% endif %} value="Professor">Professor</option>
+                                                <option {% if user.profile.designation == 'Ast.Professor' %}selected{% endif %} value="Ast.Professor">Ast.Professor</option>
+                                                <option {% if user.profile.designation == 'Staff' %}selected{% endif %} value="Staff">Staff</option>
+                                            </select>
+                                        </div>
+        
+                                        <div class="col-12 col-lg-6">
+                                            <label for="department" class="form-label">Department</label>
+                                            <select id="department" class="form-select" name="department">
+                                                <option {% if user.profile.department == 'Information Technology' %}selected{% endif %} value="Information Technology">Information Technology</option>
+                                                <option {% if user.profile.department == 'Computer Science' %}selected{% endif %} value="Computer Science">Computer Science</option>
+                                                <option {% if user.profile.department == 'Enginnering' %}selected{% endif %} value="Enginnering">Enginnering</option>
+                                            </select>
                                             
-                                            <div class="col-12">
-                                                <label for="id" class="form-label">ID</label>
-                                                <input type="text" class="form-control" id="id" name="id" value="{{user.id}}" readonly>
-                                            </div>
-
-                                            <div class="col-12">
-                                                <label for="profilePhoto" class="form-label">Profile Photo</label>
-                                                <input class="form-control" type="file" id="profilePhoto" name="profile_photo">
-                                            </div>
-
-                                            <div class="col-12 col-lg-6">
-                                                <label for="firstName" class="form-label">First Name</label>
-                                                <input type="text" class="form-control" id="firstName" name="first_name" value="{{user.first_name}}" required>
-                                            </div>
-                                            <div class="col-12 col-lg-6">
-                                                <label for="lastName" class="form-label">Last Name</label>
-                                                <input type="text" class="form-control" id="lastName" name="last_name" value="{{user.last_name}}" required>
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="phoneNumber" class="form-label">Phone Number</label>
-                                                <input type="text" class="form-control" id="phoneNumber" name="phone_number" value="{{user.profile.phone_number}}" required>
-                                            </div>
-                                            <div class="col-12 col-lg-6">
-                                                <label for="designation" class="form-label">designation</label>
-                                                <select id="designation" class="form-select" name="designation">
-                                                    <option {% if user.profile.designation == 'Professor' %}selected{% endif %} value="Professor">Professor</option>
-                                                    <option {% if user.profile.designation == 'Ast.Professor' %}selected{% endif %} value="Ast.Professor">Ast.Professor</option>
-                                                    <option {% if user.profile.designation == 'Staff' %}selected{% endif %} value="Staff">Staff</option>
-                                                </select>
-                                            </div>
-            
-                                            <div class="col-12 col-lg-6">
-                                                <label for="department" class="form-label">Department</label>
-                                                <select id="department" class="form-select" name="department">
-                                                    <option {% if user.profile.department == 'Information Technology' %}selected{% endif %} value="Information Technology">Information Technology</option>
-                                                    <option {% if user.profile.department == 'Computer Science' %}selected{% endif %} value="Computer Science">Computer Science</option>
-                                                    <option {% if user.profile.department == 'Enginnering' %}selected{% endif %} value="Enginnering">Enginnering</option>
-                                                </select>
-                                            </div>
                                         </div>
                                     </div>
+
                                     <div class="card-header">
                                         Authentication Information
                                     </div>
-                                    <div class="card-body">
-                                        <div class="row g-3 p-2">
-                                            <div class="col-12">
-                                                <label for="email" class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="email" name="email" value="{{user.email}}" required>
-                                            </div>
-                                        </div>
 
-                                        <div class="d-flex justify-content-end card-footer">
-                                            <a href="{% url "admin-index-view" %}" class="btn btn-secondary">Close</a>
-                                            <button type="submit" class="btn btn-primary ms-3">Update</button>
+                                    <div class="card-body p-2">    
+                                        <div class="col-12">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" value="{{user.email}}" required>
                                         </div>
-
                                     </div>
+
+                                    <div class="d-flex justify-content-end card-footer">
+                                        <a href="{% url "admin-list-user-view" user.role|lower %}" class="btn btn-secondary">Close</a>
+                                        <button type="submit" class="btn btn-primary ms-3">Update</button>
+                                    </div>
+
                                 </form>
                                 
                             </div>

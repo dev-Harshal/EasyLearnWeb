@@ -7,7 +7,7 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'admin-index-view' %}active bg-dark{% endif %}" href="{% url "admin-index-view" %}">
+                <a class="nav-link {% if request.resolver_match.url_name == 'admin-index-view' %} active bg-dark {% endif %}" href="{% url "admin-index-view" %}">
                     <i class="bi bi-house-door-fill"></i>
                     <span>HOME</span>
                 </a>
@@ -16,21 +16,21 @@
             <li class="nav-heading">ADMIN PAGES</li>
 
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'admin-create-teacher-view' %}active bg-dark text-primary{% endif %} collapsed" href="{% url "admin-create-teacher-view" %}">
+                <a class="nav-link {% if request.resolver_match.url_name == 'admin-create-teacher-view' %} active bg-dark text-primary {% endif %} collapsed" href="{% url "admin-create-teacher-view" %}">
                     <i class="bi bi-person-video3"></i>
                     <span>CREATE TEACHER</span>
                 </a>
             </li>
 
             <li class="nav-item mt-4">
-                <a class="nav-link {% if request.resolver_match.url_name == 'admin-list-user-view' and request.resolver_match.kwargs.role == 'teacher' %}active bg-dark text-primary{% endif %} collapsed" href="{% url 'admin-list-user-view' 'teacher' %}">
+                <a class="nav-link {% if request.resolver_match.url_name == 'admin-list-user-view' and request.resolver_match.kwargs.role == 'teacher' %} active bg-dark text-primary {% endif %} collapsed" href="{% url 'admin-list-user-view' 'teacher' %}">
                     <i class="bi bi-person-lines-fill"></i>
                     <span>LIST TEACHER'S</span>
                 </a>
             </li>
 
             <li class="nav-item mt-4">
-                <a class="nav-link {% if request.resolver_match.url_name == 'admin-list-user-view' and request.resolver_match.kwargs.role == 'student' %}active bg-dark text-primary{% endif %} collapsed" href="{% url 'admin-list-user-view' 'student' %}">
+                <a class="nav-link {% if request.resolver_match.url_name == 'admin-list-user-view' and request.resolver_match.kwargs.role == 'student' %} active bg-dark text-primary {% endif %} collapsed" href="{% url 'admin-list-user-view' 'student' %}">
                     <i class="bi bi-person-lines-fill"></i>
                     <span>LIST STUDENT'S</span>
                 </a>

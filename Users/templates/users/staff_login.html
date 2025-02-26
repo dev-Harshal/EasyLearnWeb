@@ -38,7 +38,7 @@
 
                             {% include "components/alert.html" %}
 
-                            <form id="staffLoginForm" class="row g-2 mb-3" method="post">
+                            <form id="loginForm" class="row g-2 mb-3" method="post">
                                 {% csrf_token %}
                                 <div class="col-12">
                                     <label for="email" class="form-label">Email</label>
@@ -59,7 +59,7 @@
                                     <input type="hidden" name="role" id="role" value={{role|lower}}>
                                 </div>
                                 <div class="col-12 text-center">
-                                    <button id="loginBtn" type="submit" class="btn btn-primary w-50">Login</button>
+                                    <button id="staffLoginBtn" type="submit" class="login-btn btn btn-primary w-50">Login</button>
                                     <button id="verifyBtn" type="submit" class="btn btn-primary w-50 d-none" disabled>Verify</button>
                                 </div>
                             </form>

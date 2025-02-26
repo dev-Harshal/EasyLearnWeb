@@ -7,22 +7,30 @@
 
         <section class="section">
             <div class="row justify-content-center">
-                <div class="col col-lg-9">
+                <div class="col-12">
                     <div class="card">
-                        <div class="card-body row">
 
-                            <h5 class="card-title text-center">UPDATE COURSE</h5>
+                        <div class="card-body">
+
+                            <h5 class="card-title text-center">
+                                <i class="bi bi-bookmark-check-fill"></i>
+                                UPDATE COURSE PAGE
+                            </h5>
 
                             <div class="card col col-md-9 mx-auto">
 
-                                {% include "components/alert.html" %}
+                                <div class="card-body p-4">
 
-                                <h3 class="card-title fs-3 mb-0">{{course.course_title}}<br><span>@{{course.created_by.first_name}} {{course.created_by.last_name}}</h3>
+                                    {% include "components/alert.html" %}
+                                    
+                                    <h5 class="card-title fs-4">{{course.course_title}} <br> 
+                                        <span>Created By : {{course.created_by.first_name}} {{course.created_by.last_name}}</span> <br>
+                                        <span>@ {{course.created_date}}<span>
+                                    </h5>
+                                    
+                                    <img src="{{course.course_thumbnail.url}}" class="card-img-top" alt="Course Thumbnail">
 
-                                <img src="{{course.course_thumbnail.url}}" class="card-img-top" alt="Course Thumbnail">
-
-                                <div class="card-body p-2">
-                                    <form id="updateCourseForm" class="row g-3" method="post" enctype="multipart/form-data">
+                                    <form id="updateCourseForm" class="row g-3 mt-3" method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
 
                                         <input type="hidden" name="id" id="id" value="{{course.id}}">
@@ -56,14 +64,17 @@
                                         </div>
 
                                         <div class="col-12 text-center">
-                                            <button type="submit" class="btn btn-primary">UPDATE COURSE</button>
-                                            <a href="{% url "list-courses-view" %}" class="btn btn-secondary">Close</a>
+                                            <button type="submit" class="btn btn-primary">Update Course</button>
+                                            <a href="{% url "detail-course-view" course.id %}" class="btn btn-secondary">Close</a>
                                         </div>
-                                    </form>    
+
+                                    </form>
                                 </div>
                             </div>
-                            
+
+
                         </div>
+
                     </div>
                 </div>
             </div>

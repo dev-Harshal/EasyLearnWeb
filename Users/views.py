@@ -2,7 +2,7 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from Users.models import User, StaffProfile
+from Users.models import User, Profile
 from Users.services import *
 
 def index_view(request):
@@ -91,14 +91,14 @@ def admin_create_teacher_view(request):
 
         if User.objects.filter(email=email).exists():
             return JsonResponse({'status':'error', 'message':'Email address already exists.'})
-        if StaffProfile.objects.filter(phone_number=phone_number).exists():
+        if Profile.objects.filter(phone_number=phone_number).exists():
             return JsonResponse({'status':'error', 'message':'Phone Number already exists.'})
         if password != confirm_password:
             return JsonResponse({'status':'error', 'message':'Passwords does not match.Try again.'})
         
         user = User.objects.create_user(profile_photo=profile_photo, first_name=first_name.title(), last_name=last_name.title(),
                                         email=email.lower(), password=password, role='Teacher')
-        StaffProfile.objects.create(user=user, phone_number=phone_number, designation=designation, department=department)
+        Profile.objects.create(user=user, phone_number=phone_number, designation=designation, department=department)
         
         messages.success(request, f'{user.first_name} {user.last_name[0]} created successfully.')
         success_url = f'/admin/update/teacher/{user.id}'
@@ -119,11 +119,11 @@ def admin_update_teacher_view(request, id):
         if User.objects.filter(email=email).exists():
             if email != user.email:
                 return JsonResponse({'status':'error', 'message':'Email address already exists.'})
-        if StaffProfile.objects.filter(phone_number=phone_number).exists():
+        if Profile.objects.filter(phone_number=phone_number).exists():
             if phone_number != user.profile.phone_number:
                 return JsonResponse({'status':'error', 'message':'Phone Number already exists.'})
 
-        profile = StaffProfile.objects.get(user=user)
+        profile = Profile.objects.get(user=user)
         user.first_name = first_name.title() if first_name != '' else user.first_name
         user.last_name = last_name.title() if last_name != '' else user.last_name
         user.email = email.lower() if email != '' else user.email
@@ -171,12 +171,12 @@ def staff_profile_view(request, role):
         if User.objects.filter(email=email).exists():
             if email != request.user.email:
                 return JsonResponse({'status':'error', 'message':'Email address already exists.'})
-        if StaffProfile.objects.filter(phone_number=phone_number).exists():
+        if Profile.objects.filter(phone_number=phone_number).exists():
             if phone_number != request.user.profile.phone_number:
                 return JsonResponse({'status':'error', 'message':'Phone Number already exists.'})
 
         user = User.objects.get(id=id)
-        profile = StaffProfile.objects.get(user=user)
+        profile = Profile.objects.get(user=user)
         user.first_name = first_name.title()
         user.last_name = last_name.title()
         user.email = email.lower()
@@ -184,7 +184,8 @@ def staff_profile_view(request, role):
         profile.phone_number = phone_number
         user.save()
         profile.save()
-        return JsonResponse({'status':'success', 'message':f'{user.first_name} {user.last_name[0]} profile saved successfully.'})
+        messages.success(request, f'{user.first_name} {user.last_name[0]} profile saved successfully.')
+        return JsonResponse({'status':'success', 'success_url':f'/{user.role.lower()}/profile/'})
     return render(request, 'users/staff_profile.html',context={'role':role})
 
 def change_password_view(request):
@@ -201,7 +202,8 @@ def change_password_view(request):
             user.set_password(new_password)
             user.save()
             login(request,user)
-            return JsonResponse({'status':'success', 'message':'Password updated successfully.'})
+            messages.success(request, 'Password updated successfully.')
+            return JsonResponse({'status':'success', 'success_url':f'/{user.role.lower()}/profile/'})
         else:
             return JsonResponse({'status':'error', 'message':'Current Password does not match.'})
     else:

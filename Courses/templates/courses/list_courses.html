@@ -1,47 +1,52 @@
 {% extends "users/teacher/teacher_site.html" %}
 
-{% block title %} Course Curriculum {% endblock title %}
+{% block title %} Courses List {% endblock title %}
 
 {% block main %}
     <main id="main" class="main">
 
         <section class="section">
             <div class="row justify-content-center">
-                <div class="col">
+                <div class="col-12">
                     <div class="card">
+
                         <div class="card-body">
 
-                            <h5 class="card-title text-center">LIST COURSES</h5>
+                            <h5 class="card-title text-center">
+                                <i class="bi bi-window-stack"></i>
+                                ALL COURSES
+                            </h5>
+
+                            {% include "components/alert.html" %}
                             
                             <div class="row row-cols-2 row-cols-lg-3 g-2 g-lg-3">
+
                                 {% for course in courses %}
+
                                     <div class="col">
-                                        <div class="card h-100" style="width: 18rem;">
+                                        <div class="card h-100">
+
                                             <img src="{{course.course_thumbnail.url}}" class="card-img-top h-100" alt="Course Thumbnail">
+
                                             <div class="card-body border border-primary">
-                                                <h6 class="card-title">{{course.course_title}}<br><span>@{{course.created_by.first_name}} {{course.created_by.last_name}}<span></h6>
-                                                <p class="card-text text-start">{{course.course_description|truncatechars:50}}</p>
-                                                <div class="row text-center">
-                                                    <div class="col">
-                                                        <a href="{% url "update-course-view" course.id %}" class="btn btn-secondary">
-                                                            Edit
-                                                            <i class="bi bi-pen"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col">
-                                                        <a href="{% url "detail-course-view" course.id %}" class="btn btn-primary">
-                                                            <i class="bi bi-checkpad"></i>
-                                                            Manage
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                                <h5 class="card-title">{{course.course_title}} <br>
+                                                    <span>By: {{course.created_by.first_name}} {{course.created_by.last_name}}<span> <br>
+                                                    <span>@{{course.created_date}}<span>
+                                                </h5>
+                                                <p class="card-text">{{course.course_description|truncatechars:50}}</p>
+                                                <a href="{% url "detail-course-view" course.id %}" class="btn btn-primary w-100">
+                                                    <i class="bi bi-gear"></i>
+                                                    Manage Course
+                                                </a>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 {% endfor %}
                             </div>
 
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -50,4 +55,3 @@
     </main>
 {% endblock main %}
 
-    
