@@ -7,4 +7,5 @@ urlpatterns = [
     path('detail/course/<int:course_id>/', detail_course_view, name='detail-course-view'),
     path('delete/course/<int:course_id>/', delete_course_view, name='delete-course-view'),
     path('list/courses/', list_courses_view, name='list-courses-view'),
+    path('save/curriculum/<int:course_id>/', save_curriculum_view, name='save-curriculum-view'),
 ]

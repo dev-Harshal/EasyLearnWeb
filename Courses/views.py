@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from Courses.models import *
@@ -57,3 +57,54 @@ def delete_course_view(request, course_id):
 def list_courses_view(request):
     courses = request.user.created_course.all()
     return render(request, 'courses/list_courses.html', context={'courses':courses})
+
+def save_curriculum_view(request, course_id):
+
+    course = Course.objects.get(id=course_id)
+
+    if request.method == 'POST':
+        sections = request.POST.getlist('section[]')
+
+        for i, section_title in enumerate(sections, start=1):
+
+            section = Section.objects.create(course=course, title=section_title)
+
+            video_titles = request.POST.getlist(f'video_title[{i}][]')
+            video_files = request.FILES.getlist(f'video_file[{i}][]')
+            note_files = request.FILES.getlist(f'note_file[{i}][]')
+            
+            for j, video_title in enumerate(video_titles):
+                video_file = video_files[j] if j < len(video_files) else None
+                note_file = note_files[j] if j < len(note_files) else None
+
+                Video.objects.create(
+                    section=section,
+                    title=video_title,
+                    video_file=video_file,
+                    note_file=note_file,
+                    order=j
+                )
+                
+            quiz_questions = request.POST.getlist(f'quiz_question[{i}][]')
+            quiz_option_as = request.POST.getlist(f'quiz_option_a[{i}][]')
+            quiz_option_bs = request.POST.getlist(f'quiz_option_b[{i}][]')
+            quiz_option_cs = request.POST.getlist(f'quiz_option_c[{i}][]')
+            quiz_option_ds = request.POST.getlist(f'quiz_option_d[{i}][]')
+            correct_answers = request.POST.getlist(f'isCorrect[{i}][]')
+            
+            for k, question in enumerate(quiz_questions):
+                Quiz.objects.create(
+                    section=section,
+                    question=question,
+                    option_a=quiz_option_as[k],
+                    option_b=quiz_option_bs[k],
+                    option_c=quiz_option_cs[k],
+                    option_d=quiz_option_ds[k],
+                    correct_answer=correct_answers[k],
+                    order=k
+                )
+
+
+
+
+        return JsonResponse({'status':'success'})

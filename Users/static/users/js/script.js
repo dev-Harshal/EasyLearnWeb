@@ -174,10 +174,17 @@ const resendButton = document.getElementById('resendBtn');
 if (resendButton){
     resendButton.addEventListener('click', function(event) {
         event.preventDefault();
-        console.log(resendButton.disabled)
-        if (!resendButton.disabled) {
-            login();
+        if (event.target.value === 'staff-login') {
+            if (!resendButton.disabled) {
+                staffLogin();
+            }
         }
+        else {
+            if (!resendButton.disabled) {
+                login();
+            }
+        }
+
     });
 }
 
@@ -186,10 +193,10 @@ if (loginForm) {
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault();
     
-        if (event.submitter.id == 'studentLoginBtn') {
+        if (event.submitter.id === 'studentLoginBtn') {
             login();
         }
-        else if (event.submitter.id == 'staffLoginBtn') {
+        else if (event.submitter.id === 'staffLoginBtn') {
             staffLogin();
         }
         else {

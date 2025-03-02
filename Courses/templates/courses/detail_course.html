@@ -79,287 +79,31 @@
                             <i class="bi bi-list-check"></i>
                             COURSE CURRICULUM
                         </h5>
-                        <p class="card-text fs-5 fw-medium">Start putting together your course by creating sections, lectures, and quizzes.</p>
+                        <p class="card-text fw-medium">
+                            Start putting together your course by creating sections, lectures, and quizzes.
+                        </p>
 
                         <!-- SECTION ROW -->
-                        <div class="row">
+                        <form id="saveCurriculumForm" method="post">
+                            {% csrf_token %}
 
-                            <!-- SECTION -->
-                            <div class="col-12">
-
-                                <div class="card">
-                                    <!-- SECTION TITLE -->
-                                    <div class="card-header bg-body-secondary">
-                                        <div class="row">
-                                            <label for="section" class="col-sm-2 col-form-label">Section (1) :</label>
-                                            <div class="col-sm-10">
-                                              <input type="text" class="form-control" id="section" placeholder="Section Title">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- SECTION CONTENT -->
-                                    <div class="card-body">
-                                        <div class="row g-3 p-2">
-
-                                            <!-- VIDEO AND NOTES -->
-                                            <div class="col-12">
-                                                <div class="row g-3">
-                                                    
-                                                    <div class="col-12">
-                                                        <div class="row">
-                                                            <label for="videoTitle" class="col-sm-2 col-form-label">Video Title :</label>
-                                                            <div class="col-sm-10">
-                                                              <input type="text" class="form-control" id="videoTitle">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-6">
-                                                        <div class="row">
-                                                            <label for="videoFile" class="col-sm-4 col-form-label">Video File :</label>
-                                                            <div class="col-sm-8">
-                                                              <input type="file" class="form-control" id="videoFile">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-        
-                                                    <div class="col-6">
-                                                        <div class="row">
-                                                            <label for="noteFile" class="col-sm-4 col-form-label">Note File :</label>
-                                                            <div class="col-sm-8">
-                                                              <input type="file" class="form-control" id="noteFile">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- QUIZ -->
-                                            <div class="col-12">
-
-                                                <!-- QUIZ QUESTION -->
-                                                <div class="row">
-                                                    <label for="quizQuestion" class="col-sm-2 col-form-label">Quiz Question :</label>
-                                                    <div class="col-sm-10 text-start">
-                                                      <input type="text" class="form-control" id="quizQuestion">
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUIZ OPTIONS -->
-                                                <div class="row justify-content-end">
-                                                    <div class="col-sm-10">
-                                                        <div class="row justify-content-center g-3 mt-3">
-
-                                                            <div class="col-6">
-                                                                <div class="row">
-                                                                    <label for="quizOption" class="col-sm-2 col-form-label">A :</label>
-                                                                    <div class="col-sm-8 text-start">
-                                                                      <input type="text" class="form-control" id="quizOption">
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <input type="radio" class="form-check-input" id="isCorrect" name="is_correct">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-6">
-                                                                <div class="row">
-                                                                    <label for="quizOption" class="col-sm-2 col-form-label">B :</label>
-                                                                    <div class="col-sm-8 text-start">
-                                                                      <input type="text" class="form-control" id="quizOption">
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <input type="radio" class="form-check-input" id="isCorrect" name="is_correct">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-6">
-                                                                <div class="row">
-                                                                    <label for="quizOption" class="col-sm-2 col-form-label">C :</label>
-                                                                    <div class="col-sm-8 text-start">
-                                                                      <input type="text" class="form-control" id="quizOption">
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <input type="radio" class="form-check-input" id="isCorrect" name="is_correct">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-6">
-                                                                <div class="row">
-                                                                    <label for="quizOption" class="col-sm-2 col-form-label">D :</label>
-                                                                    <div class="col-sm-8 text-start">
-                                                                      <input type="text" class="form-control" id="quizOption">
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <input type="radio" class="form-check-input" id="isCorrect" name="is_correct">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-plus"></i>
-                                            Curriculum Item
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            
-                            <!-- SECTION -->
-                            <div class="col-12">
-
-                                <div class="card">
-                                    <!-- SECTION TITLE -->
-                                    <div class="card-header bg-body-secondary">
-                                        <div class="row">
-                                            <label for="section" class="col-sm-2 col-form-label">Section (1) :</label>
-                                            <div class="col-sm-10">
-                                              <input type="text" class="form-control" id="section" placeholder="Section Title">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- SECTION CONTENT -->
-                                    <div class="card-body">
-                                        <div class="row g-3 p-2">
-
-                                            <!-- VIDEO AND NOTES -->
-                                            <div class="col-12">
-                                                <div class="row g-3">
-                                                    
-                                                    <div class="col-12">
-                                                        <div class="row">
-                                                            <label for="videoTitle" class="col-sm-2 col-form-label">Video Title :</label>
-                                                            <div class="col-sm-10">
-                                                              <input type="text" class="form-control" id="videoTitle">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-6">
-                                                        <div class="row">
-                                                            <label for="videoFile" class="col-sm-4 col-form-label">Video File :</label>
-                                                            <div class="col-sm-8">
-                                                              <input type="file" class="form-control" id="videoFile">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-        
-                                                    <div class="col-6">
-                                                        <div class="row">
-                                                            <label for="noteFile" class="col-sm-4 col-form-label">Note File :</label>
-                                                            <div class="col-sm-8">
-                                                              <input type="file" class="form-control" id="noteFile">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- QUIZ -->
-                                            <div class="col-12">
-
-                                                <!-- QUIZ QUESTION -->
-                                                <div class="row">
-                                                    <label for="quizQuestion" class="col-sm-2 col-form-label">Quiz Question :</label>
-                                                    <div class="col-sm-10 text-start">
-                                                      <input type="text" class="form-control" id="quizQuestion">
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUIZ OPTIONS -->
-                                                <div class="row justify-content-end">
-                                                    <div class="col-sm-10">
-                                                        <div class="row justify-content-center g-3 mt-3">
-
-                                                            <div class="col-6">
-                                                                <div class="row">
-                                                                    <label for="quizOption" class="col-sm-2 col-form-label">A :</label>
-                                                                    <div class="col-sm-8 text-start">
-                                                                      <input type="text" class="form-control" id="quizOption">
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <input type="radio" class="form-check-input" id="isCorrect" name="is_correct">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-6">
-                                                                <div class="row">
-                                                                    <label for="quizOption" class="col-sm-2 col-form-label">B :</label>
-                                                                    <div class="col-sm-8 text-start">
-                                                                      <input type="text" class="form-control" id="quizOption">
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <input type="radio" class="form-check-input" id="isCorrect" name="is_correct">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-6">
-                                                                <div class="row">
-                                                                    <label for="quizOption" class="col-sm-2 col-form-label">C :</label>
-                                                                    <div class="col-sm-8 text-start">
-                                                                      <input type="text" class="form-control" id="quizOption">
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <input type="radio" class="form-check-input" id="isCorrect" name="is_correct">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-6">
-                                                                <div class="row">
-                                                                    <label for="quizOption" class="col-sm-2 col-form-label">D :</label>
-                                                                    <div class="col-sm-8 text-start">
-                                                                      <input type="text" class="form-control" id="quizOption">
-                                                                    </div>
-                                                                    <div class="col-sm-2">
-                                                                        <input type="radio" class="form-check-input" id="isCorrect" name="is_correct">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-plus"></i>
-                                            Curriculum Item
-                                        </button>
-                                    </div>
-
-                                </div>
+                            <div id="sectionContainer" class="row">
+                                <input type="hidden" name="course_id" id="courseId" value="{{course.id}}">
                             </div>
 
-                        </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Save Curriculum</button>
+                            </div>
+                        </form>                        
 
+                        <!-- SECTIONS END -->
                         <div class="card-footer text-end">
-                            <button type="submit" class="btn btn-success btn-sm">
+                            <button id="addSection" type="submit" class="btn btn-success btn-sm">
                                 <i class="bi bi-plus"></i>
                                 Section
                             </button>
                         </div>
+
 
                     </div>
                 </div>
@@ -371,3 +115,40 @@
 
 {% endblock main %}
 
+
+
+<div class="col-12">
+    <div class="row align-items-center video-item">
+        <div class="col-11">
+            <div class="row g-3">
+
+                <div class="col-12">
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label">Video Title :</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control video-title" name="video_title[${sectionNumber}][]" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-10">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label">Video File :</label>
+                            <input type="file" class="form-control video-file" name="video_file[${sectionNumber}][]" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Note File (Optional) :</label>
+                            <input type="file" class="form-control note-file" name="note_file[${sectionNumber}][]">
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-1 text-end">
+            <i class="bi bi-trash text-danger fs-5 remove-item"></i>
+        </div>
+
+    </div>
+</div>

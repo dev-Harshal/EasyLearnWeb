@@ -16,3 +16,43 @@ class Course(models.Model):
     
     class Meta:
         db_table = 'All Courses'
+
+class Section(models.Model):
+    course = models.ForeignKey(Course, related_name='sections', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        db_table = 'All Sections'
+    
+class Video(models.Model):
+    section = models.ForeignKey(Section, related_name='videos', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    video_file = models.FileField(upload_to='videos/')
+    note_file = models.FileField(upload_to='notes/', null=True, blank=True)
+    order = models.PositiveIntegerField(default=0)  # Order field for sorting
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        db_table = 'All Videos'
+        ordering = ['order']
+
+class Quiz(models.Model):
+    section = models.ForeignKey(Section, related_name='quizzes', on_delete=models.CASCADE)
+    question = models.CharField(max_length=255)
+    option_a = models.CharField(max_length=255)
+    option_b = models.CharField(max_length=255)
+    option_c = models.CharField(max_length=255)
+    option_d = models.CharField(max_length=255)
+    correct_answer = models.CharField(max_length=1, choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D')])
+    order = models.PositiveIntegerField(default=0)  # Order field for sorting
+
+    def __str__(self):
+        return self.question
+
+    class Meta:
+        db_table = 'All Quizzes'
+        ordering = ['order']
