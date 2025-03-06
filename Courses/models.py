@@ -3,12 +3,12 @@ from Users.models import *
 # Create your models here.
 
 class Course(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     course_thumbnail = models.ImageField(upload_to='CourseThumbnails/', null=False, blank=False)
     course_title = models.CharField(max_length=200, null=False, blank=False)
     course_category = models.CharField(max_length=100, null=False, blank=False)
     course_description = models.CharField(max_length=200, null=False, blank=False)
-    created_by = models.ForeignKey(User, related_name='created_course', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, related_name='courses', on_delete=models.CASCADE)
     created_date = models.DateField(auto_now_add=True)
     
     def __str__(self):
@@ -17,42 +17,44 @@ class Course(models.Model):
     class Meta:
         db_table = 'All Courses'
 
-class Section(models.Model):
-    course = models.ForeignKey(Course, related_name='sections', on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
 
-    def __str__(self):
-        return self.title
+class Curriculum(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    course = models.OneToOneField(Course, related_name='curriculum' ,on_delete=models.CASCADE)
     
-    class Meta:
-        db_table = 'All Sections'
-    
-class Video(models.Model):
-    section = models.ForeignKey(Section, related_name='videos', on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
+class Section(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    curriculum = models.ForeignKey(Curriculum, related_name='sections', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, null=False, blank=False)
+    section_order = models.PositiveIntegerField(null=False, blank=False, default=0)
+
+class CurriculumItem(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    section = models.ForeignKey(Section, related_name='items', on_delete=models.CASCADE)
+    item_type = models.CharField(max_length=10, null=False, blank=False, choices=(('lesson','lesson'), ('quiz','quiz')))
+    item_order = models.PositiveIntegerField(null=False, blank=False, default=0)
+
+class Lesson(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    curriculum_item = models.OneToOneField(CurriculumItem, related_name='lesson', on_delete=models.CASCADE)
+    video_title = models.CharField(max_length=255, null=False, blank=False)
     video_file = models.FileField(upload_to='videos/')
-    note_file = models.FileField(upload_to='notes/', null=True, blank=True)
-    order = models.PositiveIntegerField(default=0)  # Order field for sorting
-    def __str__(self):
-        return self.title
-    
-    class Meta:
-        db_table = 'All Videos'
-        ordering = ['order']
+    note_file = models.FileField(upload_to='notes/', blank=True, null=True)
 
 class Quiz(models.Model):
-    section = models.ForeignKey(Section, related_name='quizzes', on_delete=models.CASCADE)
-    question = models.CharField(max_length=255)
-    option_a = models.CharField(max_length=255)
-    option_b = models.CharField(max_length=255)
-    option_c = models.CharField(max_length=255)
-    option_d = models.CharField(max_length=255)
-    correct_answer = models.CharField(max_length=1, choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D')])
-    order = models.PositiveIntegerField(default=0)  # Order field for sorting
+    id = models.BigAutoField(primary_key=True)
+    curriculum_item = models.OneToOneField(CurriculumItem, related_name='quiz', on_delete=models.CASCADE)
+    quiz_question = models.CharField(max_length=255, null=False, blank=False)
 
-    def __str__(self):
-        return self.question
+class QuizOption(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    quiz = models.ForeignKey(Quiz, related_name='options', on_delete=models.CASCADE)
+    option = models.CharField(max_length=255, null=False, blank=False)
+    is_correct = models.BooleanField(default=False)
 
-    class Meta:
-        db_table = 'All Quizzes'
-        ordering = ['order']
+
+
+
+
+
+

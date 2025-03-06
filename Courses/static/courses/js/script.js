@@ -90,7 +90,8 @@ function createSection(sectionNumber) {
                         <div class="row">
                             <label class="col-sm-2 col-form-label">Section (${sectionNumber}) :</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control section-title" placeholder="Section Title" name="section[]" required>
+                                <input type="text" class="form-control" placeholder="Title" name="section_title" required>
+                                <input type="hidden" class="form-control" name="section_order" value="${sectionNumber}" required>
                             </div>
                         </div>
                     </div>
@@ -103,8 +104,7 @@ function createSection(sectionNumber) {
             <!-- SECTION CONTENT -->
             <div class="card-body">
                 <div class="row g-3 p-2 item-container">
-                    <!-- Default Video Field -->
-                    ${createVideoItem(sectionNumber)}
+                    ${createVideoItem(sectionNumber, 1)}
                 </div>
                 <div class="col-12 text-end">
                     <div class="btn-group">
@@ -124,125 +124,131 @@ function createSection(sectionNumber) {
 }
 
 // Function to generate video template
-function createVideoItem(sectionNumber) {
+function createVideoItem(sectionNumber, order) {
     return `
-    <div class="col-12">
-        <div class="row align-items-center video-item">
-            <div class="col-11">
-                <div class="row g-3 justify-content-end">
+            <div class="col-12 item">
+                <input type="hidden" class="form-control" name="item_order" value="${order}" required>
+            <div class="row align-items-center video-item">
+                <div class="col-11">
+                    <div class="row g-3 justify-content-end">
 
-                    <div class="col-12">
-                        <div class="row">
-                            <label class="col-sm-2 col-form-label">Video Title :</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control video-title" name="video_title[${sectionNumber}][]" required>
+                        <div class="col-12">
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label video-label">(${order}) Video Title :</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="video_title" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-10">
-                        <div class="row">
-                            <div class="col-6">
-                                <label class="form-label">Video File :</label>
-                                <input type="file" class="form-control video-file" name="video_file[${sectionNumber}][]" required>
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="form-label">Video File :</label>
+                                    <input type="file" class="form-control" name="video_file" required>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label">Note File (Optional) :</label>
+                                    <input type="file" class="form-control" name="note_file">
+                                </div>    
                             </div>
-                            <div class="col-6">
-                                <label class="form-label">Note File (Optional) :</label>
-                                <input type="file" class="form-control note-file" name="note_file[${sectionNumber}][]">
-                            </div>    
                         </div>
+                    <hr>
                     </div>
-                <hr>
                 </div>
-            </div>
 
-            <div class="col-1 text-end">
-                <i class="bi bi-trash text-danger fs-5 remove-item"></i>
-            </div>
+                <div class="col-1 text-end">
+                    <i class="bi bi-trash text-danger fs-5 remove-item"></i>
+                </div>
 
+            </div>
         </div>
-    </div>
     `;
 } 
 
 // Function to generate quiz template
-function createQuizItem(sectionNumber) {
+function createQuizItem(sectionNumber, order) {
     return `
-    <div class="col-12">
-        <div class="row align-items-center quiz-item">
+        <div class="col-12 item">
+            <input type="hidden" class="form-control" name="item_order" value="${order}" required>
 
-            <div class="col-11">
-                <div class="row g-3 justify-content-end">
+            <div class="row align-items-center quiz-item">
+                <div class="col-11">
+                    <div class="row g-3 justify-content-end">
 
-                    <div class="col-12">
-                        <div class="row">
-                            <label class="col-sm-2 col-form-label">Quiz Question :</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control quiz-question" name="quiz_question[${sectionNumber}][]"  required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Options -->
-                    <div class="col-10">
-                        <div class="row g-2">
-
-                            <div class="col-6">
-                                <div class="row">
-                                    <label class="col-sm-2 col-form-label">A :</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control quiz-option-a" name="quiz_option_a[${sectionNumber}][]">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <input type="radio" value="A" name="isCorrect[${sectionNumber}][]" class="form-check-input" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-6">
-                                <div class="row">
-                                    <label class="col-sm-2 col-form-label">B :</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control quiz-option-b" name="quiz_option_b[${sectionNumber}][]">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <input type="radio" value="B" name="isCorrect[${sectionNumber}][]" class="form-check-input" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="row">
-                                    <label class="col-sm-2 col-form-label">C :</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control quiz-option-c" name="quiz_option_c[${sectionNumber}][]">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <input type="radio" value="C" name="isCorrect[${sectionNumber}][]" class="form-check-input" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="row">
-                                    <label class="col-sm-2 col-form-label">D :</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control quiz-option-d" name="quiz_option_d[${sectionNumber}][]">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <input type="radio" value="D" name="isCorrect[${sectionNumber}][]" class="form-check-input" required>
-                                    </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <label class="col-sm-2 col-form-label quiz-label">(${order}) Quiz :</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="quiz_question" required>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Options -->
+                        <div class="col-10">
+                            <div class="row g-2">
+
+                                <div class="col-6">
+                                    <div class="row">
+                                        <label class="col-sm-2 col-form-label">(1) :</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="option" required>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="radio" name="isCorrect${sectionNumber}${order}" class="form-check-input" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="row">
+                                        <label class="col-sm-2 col-form-label">(2) :</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="option" required>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="radio" name="isCorrect${sectionNumber}${order}" class="form-check-input" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="row">
+                                        <label class="col-sm-2 col-form-label">(3) :</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="option" required>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="radio" name="isCorrect${sectionNumber}${order}" class="form-check-input" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="row">
+                                        <label class="col-sm-2 col-form-label">(4) :</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" name="option" required>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input type="radio" name="isCorrect${sectionNumber}${order}" class="form-check-input" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    <hr>
                     </div>
-                <hr>
                 </div>
-            </div>
 
-            <div class="col-1 text-end">
-                <i class="bi bi-trash text-danger fs-5 remove-item"></i>
+                <div class="col-1 text-end">
+                    <i class="bi bi-trash text-danger fs-5 remove-item"></i>
+                </div>
+
             </div>
-        </div>
-    <div>
+        <div>
     `;
 }
 
@@ -275,16 +281,19 @@ if (sectionContainer) {
     
             let newItem;
             if (itemType === 'video') {
-                newItem = createVideoItem(sectionNumber);
+                
+                newItem = createVideoItem(sectionNumber, itemContainer.childElementCount+1);
             } else if (itemType === 'quiz') {
-                newItem = createQuizItem(sectionNumber);
+                newItem = createQuizItem(sectionNumber, itemContainer.childElementCount+1);
             }
             itemContainer.insertAdjacentHTML('beforeend', newItem);
             scrollToElement(itemContainer.lastElementChild);  // Scroll to the newly added item
         }
         // Handle remove video/quiz
         if (e.target && e.target.classList.contains("remove-item")) {
-            e.target.closest('.row').remove();
+            const section = e.target.closest('.section-item');
+            e.target.closest('.item').remove();
+            updateItemNumber(section);
         }
         // Handle remove section
         if (e.target && e.target.classList.contains("remove-section")) {
@@ -293,6 +302,25 @@ if (sectionContainer) {
         }
     });
 }
+
+function updateItemNumber(section) {
+    const itemContainer = section.querySelector('.item-container');
+    Array.from(itemContainer.children).forEach((item, index) => {
+        const input = item.querySelector("input[name='item_order']");
+        const videoLabel = item.querySelector(".video-label");
+        const quizLabel = item.querySelector(".quiz-label");
+        if (videoLabel) {
+            videoLabel.textContent = `(${index + 1}) Video Title`;
+        }
+        if (quizLabel) {
+            quizLabel.textContent = `(${index + 1}) Quiz :`;
+        }
+        input.value = index + 1;  // Update the order value
+    });
+}
+
+    
+
 
 
 // Update section numbers after removing

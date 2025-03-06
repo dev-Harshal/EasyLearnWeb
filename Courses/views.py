@@ -55,7 +55,7 @@ def delete_course_view(request, course_id):
     return redirect('list-courses-view')
 
 def list_courses_view(request):
-    courses = request.user.created_course.all()
+    courses = request.user.courses.all()
     return render(request, 'courses/list_courses.html', context={'courses':courses})
 
 def save_curriculum_view(request, course_id):
