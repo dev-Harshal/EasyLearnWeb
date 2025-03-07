@@ -1,5 +1,5 @@
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from Courses.models import *
 # Create your views here.
@@ -59,52 +59,84 @@ def list_courses_view(request):
     return render(request, 'courses/list_courses.html', context={'courses':courses})
 
 def save_curriculum_view(request, course_id):
-
-    course = Course.objects.get(id=course_id)
-
     if request.method == 'POST':
-        sections = request.POST.getlist('section[]')
 
-        for i, section_title in enumerate(sections, start=1):
+        try:
+            # Get the course
+            course = get_object_or_404(Course, id=course_id)
 
-            section = Section.objects.create(course=course, title=section_title)
+            # Create or get the curriculum for the course
+            curriculum, created = Curriculum.objects.get_or_create(course=course)
 
-            video_titles = request.POST.getlist(f'video_title[{i}][]')
-            video_files = request.FILES.getlist(f'video_file[{i}][]')
-            note_files = request.FILES.getlist(f'note_file[{i}][]')
-            
-            for j, video_title in enumerate(video_titles):
-                video_file = video_files[j] if j < len(video_files) else None
-                note_file = note_files[j] if j < len(note_files) else None
+            # Clear previous sections and items if necessary (optional, based on your need)
+            curriculum.sections.all().delete()
 
-                Video.objects.create(
-                    section=section,
-                    title=video_title,
-                    video_file=video_file,
-                    note_file=note_file,
-                    order=j
-                )
-                
-            quiz_questions = request.POST.getlist(f'quiz_question[{i}][]')
-            quiz_option_as = request.POST.getlist(f'quiz_option_a[{i}][]')
-            quiz_option_bs = request.POST.getlist(f'quiz_option_b[{i}][]')
-            quiz_option_cs = request.POST.getlist(f'quiz_option_c[{i}][]')
-            quiz_option_ds = request.POST.getlist(f'quiz_option_d[{i}][]')
-            correct_answers = request.POST.getlist(f'isCorrect[{i}][]')
-            
-            for k, question in enumerate(quiz_questions):
-                Quiz.objects.create(
-                    section=section,
-                    question=question,
-                    option_a=quiz_option_as[k],
-                    option_b=quiz_option_bs[k],
-                    option_c=quiz_option_cs[k],
-                    option_d=quiz_option_ds[k],
-                    correct_answer=correct_answers[k],
-                    order=k
+            # Iterate over sections and save them
+            section_titles = request.POST.getlist('section_title[]')
+            section_orders = request.POST.getlist('section_order[]')
+
+            for section_idx, (section_title, section_order) in enumerate(zip(section_titles, section_orders)):
+
+                section = Section.objects.create(
+                    curriculum = curriculum,
+                    title = section_title,
+                    section_order = int(section_order)
                 )
 
+                item_types = request.POST.getlist(f'sections[{section_idx + 1}][items][type][]')
+                item_orders = request.POST.getlist(f'sections[{section_idx + 1}][items][order][]')
+
+                for item_idx, (item_type, item_order) in enumerate(zip(item_types, item_orders)):
+                    
+                    curriculum_item = CurriculumItem.objects.create(
+                        section = section,
+                        item_type = item_type,
+                        item_order = int(item_order)
+                    )
+                    
+                    # Handle lessons (videos)
+                    if item_type == 'lesson':
+                        video_title = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][title][]')
+                        video_file = request.FILES.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][video_file][]')
+                        if not video_file:
+                            video_file = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][video_file_existing]')
+                        note_file = request.FILES.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][note_file][]', None)
+                        if not note_file:
+                            note_file = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][note_file_existing]')
+
+                        lesson = Lesson.objects.create(
+                            curriculum_item = curriculum_item,
+                            video_title = video_title,
+                            video_file = video_file,
+                            note_file = note_file
+                        )
+
+                    # Handle quizzes
+                    else:
+                        quiz_question = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][question][]')
+                        
+                        quiz = Quiz.objects.create(
+                            curriculum_item = curriculum_item,
+                            quiz_question = quiz_question
+                        )
+
+                            # Handle quiz options (assumes 4 options)
+                        for option_number in range(1, 5):
+                            option_text = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][options][{option_number}][text][]')
+                            is_correct = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][is_correct][]') == str(option_number)   
+                            
+                            quiz_option = QuizOption.objects.create(
+                                quiz = quiz,
+                                option = option_text,
+                                is_correct = is_correct
+                            )
 
 
+            messages.success(request, 'Video and Quizz added.')
+            return JsonResponse({'status': 'success', 'success_url': f'/teacher/detail/course/{course_id}/'}, status=200)
 
-        return JsonResponse({'status':'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+

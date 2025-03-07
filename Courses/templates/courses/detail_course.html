@@ -73,6 +73,7 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card">
+
                     <div class="card-body">
                         
                         <h5 class="card-title fs-5 mb-0 pb-2">
@@ -83,6 +84,8 @@
                             Start putting together your course by creating sections, lectures, and quizzes.
                         </p>
 
+                        {% include "components/alert.html" %}
+                        
                         <!-- SECTION ROW -->
                         <form id="saveCurriculumForm" method="post">
                             {% csrf_token %}
@@ -93,145 +96,155 @@
 
                                 {% if course.curriculum %}
                                     {% for section in course.curriculum.sections.all  %}
-                                    <div class="col-12 section-item" data-section-number="{{forloop.counter}}">
-                                        <div class="card">
-                                
-                                            <!-- SECTION TITLE -->
-                                            <div class="card-header bg-body-secondary">
-                                                <div class="row align-items-center">
-                                                    <div class="col-10">
-                                                        <div class="row">
-                                                            <label class="col-sm-2 col-form-label">Section ({{ forloop.counter}}) :</label>
-                                                            <div class="col-sm-10">
-                                                                <input type="text" class="form-control" placeholder="Title" name="section_title" required>
-                                                                <input type="hidden" class="form-control" name="section_order" value="{{ forloop.counter}}" required>
+                                        <div class="col-12 section-item" data-section-number="{{forloop.counter}}">
+                                            <div class="card">
+                                    
+                                                <!-- SECTION TITLE -->
+                                                <div class="card-header bg-body-secondary">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <label class="col-sm-2 col-form-label section-label">Section ({{ forloop.counter}}) :</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" placeholder="Title" name="section_title[]" value="{{section.title}}" required>
+                                                                    <input type="hidden" class="form-control" name="section_order[]" value="{{ forloop.counter}}" required>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-2 text-end">
-                                                        <i class="bi bi-trash text-danger fs-5 remove-section"></i>
+                                                        <div class="col-2 text-end">
+                                                            <i class="bi bi-trash text-danger fs-5 remove-section"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                
-                                            <!-- SECTION CONTENT -->
-                                            <div class="card-body">
+                                    
+                                                <!-- SECTION CONTENT -->
+                                                <div class="card-body">
+                                                    <div class="row g-3 p-2 item-container">
 
-                                                <div class="row g-3 p-2 item-container">
-                                                    {% for item in section.items.all %}
-                                                        {% if item.item_type == 'lesson' %}
-                                                            <div class="col-12 item">
-                                                                <input type="hidden" class="form-control" name="item_order" value="{{forloop.counter}}" required>
-                                                                <div class="row align-items-center video-item">
-                                                                    <div class="col-11">
-                                                                        <div class="row g-3 justify-content-end">
-                                                            
-                                                                            <div class="col-12">
-                                                                                <div class="row">
-                                                                                    <label class="col-sm-2 col-form-label">({{forloop.counter}}) Video Title :</label>
-                                                                                    <div class="col-sm-10">
-                                                                                        <input type="text" class="form-control" name="video_title" value="{{item.video.video_title}}" required>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                            
-                                                                            <div class="col-10">
-                                                                                <div class="row">
-                                                                                    <div class="col-6">
-                                                                                        <label class="form-label">Video File :</label>
-                                                                                        <input type="file" class="form-control" name="video_file" required>
-                                                                                        <a href="{{item.video.video_file}}" target="_blank">current video</a>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label class="form-label">Note File (Optional) :</label>
-                                                                                        <input type="file" class="form-control" name="note_file">
-                                                                                        {% if item.video.note_file %}
-                                                                                            <a href="{{item.video.note_file}}" target="_blank">current note</a>
-                                                                                        {% endif %}
-                                                                                    </div>    
-                                                                                </div>
-                                                                            </div>
-                                                                        <hr>
-                                                                        </div>
-                                                                    </div>
-                                                            
-                                                                    <div class="col-1 text-end">
-                                                                        <i class="bi bi-trash text-danger fs-5 remove-item"></i>
-                                                                    </div>
-                                                            
-                                                                </div>
-                                                            </div>
-                                                        {% else %}
-                                                            <div class="col-12 item">
-                                                                <input type="hidden" class="form-control" name="item_order" value="{{forloop.counter}}" required>
-                                                                <div class="row align-items-center quiz-item">
-                                                                    <div class="col-11">
-                                                                        <div class="row g-3 justify-content-end">
-                                                        
-                                                                            <div class="col-12">
-                                                                                <div class="row">
-                                                                                    <label class="col-sm-2 col-form-label">({{forloop.counter}}) Quiz :</label>
-                                                                                    <div class="col-sm-10">
-                                                                                        <input type="text" class="form-control" name="quiz_question" value="{{item.quiz.quiz_question}}"  required>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                        
-                                                                            <!-- Options -->
-                                                                            <div class="col-10">
-                                                                                <div class="row g-2">
+                                                        {% for item in section.items.all %}
+                                                            {% if item.item_type == 'lesson' %}
 
-                                                                                {% for option in item.quiz.options %}
-                                                                                    <div class="col-6">
-                                                                                        <div class="row">
-                                                                                            <label class="col-sm-2 col-form-label">{{forloop.counter}} :</label>
-                                                                                            <div class="col-sm-8">
-                                                                                                <input type="text" class="form-control" name="option" value="{{option.option}}" required>
-                                                                                            </div>
-                                                                                            <div class="col-sm-2">
-                                                                                                <input type="radio" name="isCorrect{{option.quiz.id}}" class="form-check-input" {% if option.option.is_correct %} checked {% endif %} required>
-                                                                                            </div>
+                                                                <div class="col-12 item">
+                                                                    <input type="hidden" class="form-control" name="sections[{{forloop.parentloop.counter}}][items][type][]" value="lesson" required>
+                                                                    <input type="hidden" class="form-control" name="sections[{{forloop.parentloop.counter}}][items][order][]" value="{{forloop.counter}}" required>
+
+                                                                    <div class="row align-items-center video-item">
+                                                                        <div class="col-11">
+                                                                            <div class="row g-3 justify-content-end">
+                                                                
+                                                                                <div class="col-12">
+                                                                                    <div class="row">
+                                                                                        <label class="col-sm-2 col-form-label">({{forloop.counter}}) Video Title :</label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text" class="form-control" name="sections[{{ forloop.parentloop.counter }}][items][{{ forloop.counter }}][title][]" value="{{item.lesson.video_title}}" required>
                                                                                         </div>
                                                                                     </div>
-                                                                                {% endfor %}
-
                                                                                 </div>
+                                                                
+                                                                                <div class="col-10">
+                                                                                    <div class="row">
+                                                                                        <div class="col-6">
+                                                                                            <label class="form-label">Video File :</label>
+                                                                                            <input type="file" class="form-control" name="sections[{{ forloop.parentloop.counter }}][items][{{ forloop.counter }}][video_file][]">
+                                                                                            <input type="hidden" name="sections[{{ forloop.parentloop.counter }}][items][{{ forloop.counter }}][video_file_existing]" value="{{ item.lesson.video_file }}">
+                                                                                            <a href="{{item.lesson.video_file.url}}" target="_blank">current video</a>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label class="form-label">Note File (Optional) :</label>
+                                                                                            <input type="file" class="form-control" name="sections[{{ forloop.parentloop.counter }}][items][{{ forloop.counter }}][note_file][]">
+                                                                                            {% if item.lesson.note_file %}
+                                                                                                <input type="hidden" name="sections[{{ forloop.parentloop.counter }}][items][{{ forloop.counter }}][note_file_existing]" value="{{ item.lesson.note_file }}">
+                                                                                                <a href="{{item.lesson.note_file.url}}" target="_blank">current note</a>
+                                                                                            {% endif %}
+                                                                                        </div>    
+                                                                                    </div>
+                                                                                </div>
+                                                                            <hr>
                                                                             </div>
-                                                                        <hr>
                                                                         </div>
-                                                                    </div>
-                                                        
-                                                                    <div class="col-1 text-end">
-                                                                        <i class="bi bi-trash text-danger fs-5 remove-item"></i>
+                                                                
+                                                                        <div class="col-1 text-end">
+                                                                            <i class="bi bi-trash text-danger fs-5 remove-item"></i>
+                                                                        </div>
+                                                                
                                                                     </div>
                                                                 </div>
-                                                            <div>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </div>
 
-                                                <!-- Add Item Button -->
-                                                <div class="col-12 text-end">
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle add-item-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="bi bi-plus"></i> Add Item
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item addItem" href="#" data-type="video" data-section="${sectionNumber}">Video</a></li>
-                                                            <li><a class="dropdown-item addItem" href="#" data-type="quiz" data-section="${sectionNumber}">Quiz</a></li>
-                                                        </ul>
+                                                            {% else %}
+
+                                                                <div class="col-12 item">
+
+                                                                    <input type="hidden" class="form-control" name="sections[{{ forloop.parentloop.counter }}][items][{{ forloop.counter }}][type][]" value="quiz" required>
+                                                                    <input type="hidden" class="form-control" name="sections[{{ forloop.parentloop.counter }}][items][{{ forloop.counter }}][order][]" value="{{ forloop.counter }}" required>
+
+                                                                    <div class="row align-items-center quiz-item">
+                                                                        <div class="col-11">
+                                                                            <div class="row g-3 justify-content-end">
+                                                            
+                                                                                <div class="col-12">
+                                                                                    <div class="row">
+                                                                                        <label class="col-sm-2 col-form-label">({{forloop.counter}}) Quiz :</label>
+                                                                                        <div class="col-sm-10">
+                                                                                            <input type="text" class="form-control" name="sections[{{ forloop.parentloop.counter }}][items][{{ forloop.counter }}][question][]" value="{{item.quiz.quiz_question}}"  required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                            
+                                                                                <!-- Options -->
+                                                                                <div class="col-10">
+                                                                                    <div class="row g-2">
+
+                                                                                    {% for option in item.quiz.options.all %}
+                                                                                        <div class="col-6">
+                                                                                            <div class="row">
+                                                                                                <label class="col-sm-2 col-form-label">{{forloop.counter}} :</label>
+                                                                                                <div class="col-sm-8">
+                                                                                                    <input type="text" class="form-control" name="sections[{{ forloop.parentloop.parentloop.counter }}][items][{{ forloop.parentloop.counter }}][options][{{ forloop.counter }}][text][]" value="{{option.option}}" required>
+                                                                                                </div>
+                                                                                                <div class="col-sm-2">
+                                                                                                    <input type="radio" name="sections[{{ forloop.parentloop.parentloop.counter }}][items][{{ forloop.parentloop.counter }}][is_correct]" class="form-check-input" {% if option.is_correct %} checked {% endif %} required>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    {% endfor %}
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            <hr>
+                                                                            </div>
+                                                                        </div>
+                                                            
+                                                                        <div class="col-1 text-end">
+                                                                            <i class="bi bi-trash text-danger fs-5 remove-item"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                <div>
+                                                                    
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        
                                                     </div>
+
+                                                    <!-- Add Item Button -->
+                                                    <div class="col-12 text-end">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle add-item-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="bi bi-plus"></i> Add Item
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a class="dropdown-item addItem" href="#" data-type="video" data-section="{{forloop.counter}}">Video</a></li>
+                                                                <li><a class="dropdown-item addItem" href="#" data-type="quiz" data-section="{{forloop.counter}}">Quiz</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+
                                                 </div>
-
-
                                             </div>
                                         </div>
-                                    </div>
                                     {% endfor %}
                                 {% endif %}
 
-
-                                
                             </div>
 
                             <div class="text-center">
@@ -242,13 +255,14 @@
 
                         <!-- ADD SECTION -->
                         <div class="card-footer text-end">
-                            <button id="addSection" type="submit" class="btn btn-success btn-sm">
+                            <button id="addSection" class="btn btn-success btn-sm">
                                 <i class="bi bi-plus"></i>
                                 Section
                             </button>
                         </div>
 
                     </div>
+
                 </div>
             </div>
         </div>
@@ -260,38 +274,3 @@
 
 
 
-<div class="col-12">
-    <div class="row align-items-center video-item">
-        <div class="col-11">
-            <div class="row g-3">
-
-                <div class="col-12">
-                    <div class="row">
-                        <label class="col-sm-2 col-form-label">Video Title :</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control video-title" name="video_title[${sectionNumber}][]" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-10">
-                    <div class="row">
-                        <div class="col-6">
-                            <label class="form-label">Video File :</label>
-                            <input type="file" class="form-control video-file" name="video_file[${sectionNumber}][]" required>
-                        </div>
-                        <div class="col-6">
-                            <label class="form-label">Note File (Optional) :</label>
-                            <input type="file" class="form-control note-file" name="note_file[${sectionNumber}][]">
-                        </div>    
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-1 text-end">
-            <i class="bi bi-trash text-danger fs-5 remove-item"></i>
-        </div>
-
-    </div>
-</div>
