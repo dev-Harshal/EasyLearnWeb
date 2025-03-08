@@ -234,7 +234,7 @@ function createQuizOption(sectionNumber, order, optionNumber) {
 // Add default section on load
 const sectionContainer = document.getElementById("sectionContainer");
 if (sectionContainer) {
-    if (sectionCount.length === 0) {
+    if (sectionCount === 0) {
         sectionCount++
         sectionContainer.innerHTML += createSection(sectionCount);    
     }
@@ -271,6 +271,7 @@ function updateSectionNumbers() {
             sectionLabel.textContent = `Section (${newSectionNumber}) :`;
         }
         // Call updateItemNumber to ensure item numbers within the section are updated
+
         updateItemNumber(section);
     });
 }
@@ -286,16 +287,25 @@ function updateItemNumber(section) {
         const videoLabel = item.querySelector(".video-label");
         const quizLabel = item.querySelector(".quiz-label");
         
-        // Update the item order value and label text
-        itemOrder.value = index + 1;
+        itemOrder.value = index + 1
 
         if (videoLabel) {
             videoLabel.textContent = `(${index + 1}) Video Title :`;
             
             const videoTitle = item.querySelector(`input[name^='sections'][name$='[title][]']`);
             const videoFile = item.querySelector(`input[name^='sections'][name$='[video_file][]']`);
+            const existingVideoFile = item.querySelector(`input[name^='sections'][name$='[video_file_existing]']`);
+            const existingNoteFile = item.querySelector(`input[name^='sections'][name$='[note_file_existing]']`);
             const noteFile = item.querySelector(`input[name^='sections'][name$='[note_file][]']`);
 
+            itemType.name = `sections[${section.dataset.sectionNumber}][items][type][]`
+            itemOrder.name = `sections[${section.dataset.sectionNumber}][items][order][]`
+            if (existingVideoFile) {
+                existingVideoFile.name =  `sections[${section.dataset.sectionNumber}][items][${index + 1}][video_file_existing]`;
+            }
+            if (existingNoteFile) {
+                existingNoteFile.name =  `sections[${section.dataset.sectionNumber}][items][${index + 1}][note_file_existing]`;
+            }
             videoTitle.name = `sections[${section.dataset.sectionNumber}][items][${index + 1}][title][]`;
             videoFile.name = `sections[${section.dataset.sectionNumber}][items][${index + 1}][video_file][]`;
             noteFile.name = `sections[${section.dataset.sectionNumber}][items][${index + 1}][note_file][]`;
@@ -303,7 +313,8 @@ function updateItemNumber(section) {
 
         if (quizLabel) {
             quizLabel.textContent = `(${index + 1}) Quiz :`;
-            
+            itemType.name = `sections[${section.dataset.sectionNumber}][items][type][]`
+            itemOrder.name = `sections[${section.dataset.sectionNumber}][items][order][]`
             const quizQuestion = item.querySelector(`input[name^='sections'][name$='[question][]']`);
             quizQuestion.name = `sections[${section.dataset.sectionNumber}][items][${index + 1}][question][]`;
 
@@ -314,7 +325,7 @@ function updateItemNumber(section) {
 
             const correctAnswerRadios = item.querySelectorAll(`input[name^='sections'][type='radio']`);
             correctAnswerRadios.forEach((radio) => {
-                radio.name = `sections[${section.dataset.sectionNumber}][items][${index + 1}][is_correct]`;
+                radio.name = `sections[${section.dataset.sectionNumber}][items][${index + 1}][is_correct][]`;
             });
         }
     });

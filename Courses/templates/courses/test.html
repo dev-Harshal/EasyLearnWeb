@@ -75,21 +75,22 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card">
+
                     <div class="card-body">
                         
                         <h5 class="card-title fs-5 mb-0 pb-2"> <i class="bi bi-list-check"></i> COURSE CURRICULUM</h5>
                         <p class="card-text fw-medium">Start putting together your course by creating sections, lectures, and quizzes.</p>
 
+                        <!-- SECTION ROW -->
                         <form id="saveCurriculumForm" method="post">
                             {% csrf_token %}
 
                             <input type="hidden" name="course_id" id="courseId" value="{{course.id}}">
+                            
+                            <div id="sectionContainer" class="row bg-secondary">
 
-                            <div id="sectionContainer" class="row">
-
-                                {% for section in course.curriculum.sections.all %}
-
-                                    <div class="col-12 section-item" data-section-number="{{forloop.counter}}">
+                                {% for section in course.curriculum.sections.all  %}
+                                    <div class="col-12 section-item bg-dark" data-section-number="{{forloop.counter}}">
                                         <div class="card">
                                 
                                             <!-- SECTION TITLE -->
@@ -97,13 +98,11 @@
                                                 <div class="row align-items-center">
                                                     <div class="col-10">
                                                         <div class="row">
-                                
-                                                            <label class="col-sm-2 col-form-label section-label">Section ({{forloop.counter}}) :</label>
+                                                            <label class="col-sm-2 col-form-label section-label">Section ({{ forloop.counter}}) :</label>
                                                             <div class="col-sm-10">
                                                                 <input type="text" class="form-control" placeholder="Title" name="section_title[]" value="{{section.title}}" required>
-                                                                <input type="hidden" class="form-control" name="section_order[]" value="{{forloop.counter}}" required>
+                                                                <input type="hidden" class="form-control" name="section_order[]" value="{{ forloop.counter}}" required>
                                                             </div>
-                                
                                                         </div>
                                                     </div>
                                                     <div class="col-2 text-end">
@@ -116,28 +115,26 @@
                                             <div class="card-body">
                                                 <div class="row g-3 p-2 item-container">
 
-                                                    {% for item in section.items.all  %}
-
+                                                    {% for item in section.items.all %}
                                                         {% if item.item_type == 'lesson' %}
-                                                        
+
                                                             <div class="col-12 item">
-            
                                                                 <input type="hidden" class="form-control" name="sections[{{forloop.parentloop.counter}}][items][type][]" value="lesson" required>
                                                                 <input type="hidden" class="form-control" name="sections[{{forloop.parentloop.counter}}][items][order][]" value="{{forloop.counter}}" required>
-                                                    
+
                                                                 <div class="row align-items-center video-item">
                                                                     <div class="col-11">
                                                                         <div class="row g-3 justify-content-end">
+                                                            
                                                                             <div class="col-12">
                                                                                 <div class="row">
-                                                    
-                                                                                    <label class="col-sm-2 col-form-label video-label">({{forloop.counter}}) Video Title :</label>
+                                                                                    <label class="col-sm-2 col-form-label">({{forloop.counter}}) Video Title :</label>
                                                                                     <div class="col-sm-10">
-                                                                                        <input type="text" class="form-control" name="sections[{{forloop.parentloop.counter}}][items][{{forloop.counter}}][title][]" value="{{item.lesson.video_title}}" required>
+                                                                                        <input type="text" class="form-control" name="sections[{{ forloop.parentloop.counter }}][items][{{ forloop.counter }}][title][]" value="{{item.lesson.video_title}}" required>
                                                                                     </div>
-                                                    
                                                                                 </div>
                                                                             </div>
+                                                            
                                                                             <div class="col-10">
                                                                                 <div class="row">
                                                                                     <div class="col-6">
@@ -159,11 +156,11 @@
                                                                         <hr>
                                                                         </div>
                                                                     </div>
-                                                    
+                                                            
                                                                     <div class="col-1 text-end">
                                                                         <i class="bi bi-trash text-danger fs-5 remove-item"></i>
                                                                     </div>
-                                                    
+                                                            
                                                                 </div>
                                                             </div>
 
@@ -171,58 +168,58 @@
 
                                                             <div class="col-12 item">
 
-                                                                <input type="hidden" class="form-control" name="sections[{{forloop.parentloop.counter}}][items][type][]" value="quiz" required>
-                                                                <input type="hidden" class="form-control" name="sections[{{forloop.parentloop.counter}}][items][order][]" value="{{forloop.counter}}" required>
-                                                                
+                                                                <input type="hidden" class="form-control" name="sections[{{ forloop.parentloop.counter }}][items][type][]" value="quiz" required>
+                                                                <input type="hidden" class="form-control" name="sections[{{ forloop.parentloop.counter }}][items][order][]" value="{{ forloop.counter }}" required>
+
                                                                 <div class="row align-items-center quiz-item">
                                                                     <div class="col-11">
                                                                         <div class="row g-3 justify-content-end">
-                                                    
+                                                        
                                                                             <div class="col-12">
                                                                                 <div class="row">
                                                                                     <label class="col-sm-2 col-form-label quiz-label">({{forloop.counter}}) Quiz :</label>
                                                                                     <div class="col-sm-10">
-                                                                                        <input type="text" class="form-control" name="sections[{{forloop.parentloop.counter}}][items][{{forloop.counter}}][question][]" value="{{item.quiz.quiz_question}}" required>
+                                                                                        <input type="text" class="form-control" name="sections[{{ forloop.parentloop.counter }}][items][{{ forloop.counter }}][question][]" value="{{item.quiz.quiz_question}}"  required>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                    
+                                                        
                                                                             <!-- Options -->
                                                                             <div class="col-10">
                                                                                 <div class="row g-2">
-                                                                                    {% for option in item.quiz.options.all %}
-                                                                                        <div class="col-6">
-                                                                                            <div class="row">
-                                                                                                <label class="col-sm-2 col-form-label">{{forloop.counter}} :</label>
-                                                                                                <div class="col-sm-8">
-                                                                                                    <input type="text" class="form-control" name="sections[{{ forloop.parentloop.parentloop.counter }}][items][{{ forloop.parentloop.counter }}][options][{{ forloop.counter }}][text][]" value="{{option.option}}" required>
-                                                                                                </div>
-                                                                                                <div class="col-sm-2">
-                                                                                                    <input type="radio" name="sections[{{ forloop.parentloop.parentloop.counter }}][items][{{ forloop.parentloop.counter }}][is_correct][]" value="{{forloop.counter}}" class="form-check-input" {% if option.is_correct %} checked {% endif %} required>
-                                                                                                </div>
+
+                                                                                {% for option in item.quiz.options.all %}
+                                                                                    <div class="col-6">
+                                                                                        <div class="row">
+                                                                                            <label class="col-sm-2 col-form-label">{{forloop.counter}} :</label>
+                                                                                            <div class="col-sm-8">
+                                                                                                <input type="text" class="form-control" name="sections[{{ forloop.parentloop.parentloop.counter }}][items][{{ forloop.parentloop.counter }}][options][{{ forloop.counter }}][text][]" value="{{option.option}}" required>
+                                                                                            </div>
+                                                                                            <div class="col-sm-2">
+                                                                                                <input type="radio" name="sections[{{ forloop.parentloop.parentloop.counter }}][items][{{ forloop.parentloop.counter }}][is_correct][]" value="{{forloop.counter}}" class="form-check-input" {% if option.is_correct %} checked {% endif %} required>
                                                                                             </div>
                                                                                         </div>
-                                                                                    {% endfor %}
+                                                                                    </div>
+                                                                                {% endfor %}
+
                                                                                 </div>
                                                                             </div>
                                                                         <hr>
                                                                         </div>
                                                                     </div>
-                                                    
+                                                        
                                                                     <div class="col-1 text-end">
                                                                         <i class="bi bi-trash text-danger fs-5 remove-item"></i>
                                                                     </div>
-                                                    
                                                                 </div>
-                                                            </div>
-
+                                                            <div>
+                                                                
                                                         {% endif %}
-
                                                     {% endfor %}
-                                                   
-
+                                                    
                                                 </div>
 
+                                                <!-- Add Item Button -->
                                                 <div class="col-12 text-end">
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-primary btn-sm dropdown-toggle add-item-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -234,11 +231,10 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-
                                             </div>
+                                            
                                         </div>
                                     </div>
-                                
                                 {% endfor %}
 
                             </div>
@@ -246,9 +242,9 @@
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Save Curriculum</button>
                             </div>
+                            
+                        </form>                        
 
-                        </form>
-   
                     </div>
                  
                     <div class="card-footer text-end">
@@ -262,7 +258,6 @@
             </div>
         </div>
     </section>
-
 </main>
 
 

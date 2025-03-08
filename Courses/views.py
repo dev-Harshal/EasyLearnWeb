@@ -62,6 +62,7 @@ def save_curriculum_view(request, course_id):
     if request.method == 'POST':
 
         try:
+            print(request.POST,"DATA")
             # Get the course
             course = get_object_or_404(Course, id=course_id)
 
@@ -83,8 +84,11 @@ def save_curriculum_view(request, course_id):
                     section_order = int(section_order)
                 )
 
-                item_types = request.POST.getlist(f'sections[{section_idx + 1}][items][type][]')
-                item_orders = request.POST.getlist(f'sections[{section_idx + 1}][items][order][]')
+                print(f'({section.section_order})', section_title)
+
+                item_types = request.POST.getlist(f'sections[{section_order}][items][type][]')
+                item_orders = request.POST.getlist(f'sections[{section_order}][items][order][]')
+                print('ITEMS: ',item_types,item_orders)
 
                 for item_idx, (item_type, item_order) in enumerate(zip(item_types, item_orders)):
                     
@@ -96,13 +100,13 @@ def save_curriculum_view(request, course_id):
                     
                     # Handle lessons (videos)
                     if item_type == 'lesson':
-                        video_title = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][title][]')
-                        video_file = request.FILES.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][video_file][]')
+                        video_title = request.POST.get(f'sections[{section.section_order}][items][{item_order}][title][]')
+                        video_file = request.FILES.get(f'sections[{section.section_order}][items][{item_order}][video_file][]')
                         if not video_file:
-                            video_file = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][video_file_existing]')
-                        note_file = request.FILES.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][note_file][]', None)
+                            video_file = request.POST.get(f'sections[{section.section_order}][items][{item_order}][video_file_existing]')
+                        note_file = request.FILES.get(f'sections[{section.section_order}][items][{item_order}][note_file][]', None)
                         if not note_file:
-                            note_file = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][note_file_existing]')
+                            note_file = request.POST.get(f'sections[{section.section_order}][items][{item_order}][note_file_existing]')
 
                         lesson = Lesson.objects.create(
                             curriculum_item = curriculum_item,
@@ -113,7 +117,7 @@ def save_curriculum_view(request, course_id):
 
                     # Handle quizzes
                     else:
-                        quiz_question = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][question][]')
+                        quiz_question = request.POST.get(f'sections[{section.section_order}][items][{item_order}][question][]')
                         
                         quiz = Quiz.objects.create(
                             curriculum_item = curriculum_item,
@@ -122,8 +126,8 @@ def save_curriculum_view(request, course_id):
 
                             # Handle quiz options (assumes 4 options)
                         for option_number in range(1, 5):
-                            option_text = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][options][{option_number}][text][]')
-                            is_correct = request.POST.get(f'sections[{section_idx + 1}][items][{item_idx + 1}][is_correct][]') == str(option_number)   
+                            option_text = request.POST.get(f'sections[{section.section_order}][items][{item_order}][options][{option_number}][text][]')
+                            is_correct = request.POST.get(f'sections[{section.section_order}][items][{item_order}][is_correct][]') == str(option_number)   
                             
                             quiz_option = QuizOption.objects.create(
                                 quiz = quiz,
